@@ -1,0 +1,160 @@
+<section class="bg-mat-primary">
+  <div
+    class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h1 class="mt-5">wir-liefern-dein-essen.de</h1>
+    <h2 class="my-5">Wohin soll es denn gehen?</h2>
+    <mat-form-field class="mb-5">
+      <mat-label>Clearable input</mat-label>
+      <input
+        matInput
+        type="text"
+        [(ngModel)]="value" />
+      <button
+        *ngIf="value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="value = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</section>
+<section>
+  <div
+    class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h2>Wie bestellst du dein Essen?</h2>
+    <div class="container my-5">
+      <div class="row gap-4 justify-content-center">
+        <mat-card class="col-md p-5">
+          <img
+            mat-card-image
+            src="assets/img/worldwide-location-512.png" />
+          <mat-card-header>
+            <mat-card-title>1. Du gibst deinen Standort an</mat-card-title>
+          </mat-card-header>
+          <mat-card-content
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perferendis eos eum voluptatem est voluptates, in esse placeat
+            eveniet harum nulla? Mollitia nihil aliquid porro dolore voluptas
+            dicta sed? Repellendus, quo.</mat-card-content
+          >
+        </mat-card>
+        <mat-card class="col-md p-5">
+          <img
+            mat-card-image
+            src="assets/img/pizza-3-512.png" />
+          <mat-card-header>
+            <mat-card-title
+              >2. Du suchst dir raus, worauf du Lust hast</mat-card-title
+            >
+          </mat-card-header>
+          <mat-card-content
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perferendis eos eum voluptatem est voluptates, in esse placeat
+            eveniet harum nulla? Mollitia nihil aliquid porro dolore voluptas
+            dicta sed? Repellendus, quo.</mat-card-content
+          >
+        </mat-card>
+        <mat-card class="col-md p-5">
+          <img
+            mat-card-image
+            src="assets/img/bell-2-512.png" />
+          <mat-card-header>
+            <mat-card-title
+              >3. Bestelle und warte, bis es an der Tür klingelt</mat-card-title
+            >
+          </mat-card-header>
+          <mat-card-content
+            >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Perferendis eos eum voluptatem est voluptates, in esse placeat
+            eveniet harum nulla? Mollitia nihil aliquid porro dolore voluptas
+            dicta sed? Repellendus, quo.</mat-card-content
+          >
+        </mat-card>
+      </div>
+    </div>
+    <button
+      mat-raised-button
+      color="primary">
+      Bestelle jetzt!
+    </button>
+  </div>
+</section>
+<section class="bg-mat-white">
+  <div class="container py-5">
+    <h2 class="text-center">Einen Account gefällig?</h2>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md order-md-2 d-flex justify-content-center">
+          <img
+            class="reg-img"
+            src="assets/img/register-img.jpg"
+            alt="" />
+        </div>
+        <div class="col-md order-md-1">
+          <p>Du möchtest schneller bestellen? Kein Problem!</p>
+          <p>
+            Klicke auf den Button und hinterlege deine Daten, damit die nächste
+            Bestellung schneller bei dir ist!
+          </p>
+          <button
+            mat-raised-button
+            color="primary">
+            Registriere dich jetzt!
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="bg-mat-accent">
+  <div
+    class="container d-flex flex-column justify-content-center align-items-center py-5">
+    <h4>
+      <small class="mat-color-secondary">wir-liefern-dein-essen.de</small>
+    </h4>
+    <h2>Hunger nach mehr?</h2>
+    <p>Hier sind einige leckere Infohäppchen zu dieser Webseite:</p>
+    <ul>
+      <li>
+        <img
+          src=""
+          alt="" />
+        <p>
+          Diese Seite ist ein Klon von takeaway.com, allerdings gibt es hier nur
+          virtuelles Futter. Kostenlos!
+        </p>
+      </li>
+      <li>
+        <img
+          src=""
+          alt="" />
+        <p>
+          Das Design wurde mittels einer Kombination aus Bootstrap und Material
+          Design erstellt.
+        </p>
+      </li>
+      <li>
+        <img
+          src=""
+          alt="" />
+        <p>Weitere Technologien dieser Website: Firebase, Angular, SCSS.</p>
+      </li>
+      <li>
+        <img
+          src=""
+          alt="" />
+        <p>Diese Webseite kann über ein "simples" CRM verwaltet werden!</p>
+      </li>
+      <li>
+        <img
+          src=""
+          alt="" />
+        <p>
+          Ungefähre Dauer für dieses Projekt: Webseite x h; Gesamtprojekt: y h.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>
