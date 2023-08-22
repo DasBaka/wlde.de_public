@@ -1,2 +1,18 @@
 <aside></aside>
-<section></section>
+<section>
+  <mat-card
+    class="d-flex flex-sm-column flex-md-row"
+    *ngFor="let r of restaurants$ | async">
+    <img
+      mat-card-lg-image
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Image of a Shiba Inu" />
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title>{{ r.name }}</mat-card-title>
+        <mat-card-subtitle>Medium</mat-card-subtitle>
+        <mat-card-subtitle>Medium</mat-card-subtitle>
+      </mat-card-title-group>
+    </mat-card-header>
+  </mat-card>
+</section>
