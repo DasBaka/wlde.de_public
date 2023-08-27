@@ -12,20 +12,29 @@ export class RestaurantsComponent {
   restaurants$: Observable<RestaurantProfile[]>;
 
   constructor() {
-    const coll = collection(
-      this.firestore,
-      'restaurants/QBJwLfo5q5D2Hap2ctJu/dishes'
-    );
+    const coll = collection(this.firestore, 'restaurants');
     this.restaurants$ = collectionData(coll) as Observable<RestaurantProfile[]>;
   }
 }
 
 export interface RestaurantProfile {
+  general: {
+    mail: string;
+    owner: string;
+    phone: string;
+    restaurant: string;
+  };
+  address: {
+    city: string;
+    house: string;
+    postalCode: string;
+    street: string;
+  };
+  delivery: {
+    costs: number;
+    min: string; // TO-DO!
+  };
+  hours: [];
   id: string;
-  name: string;
   likes: { ratio: number; amount: number };
-  min: string;
-  time: string;
-  costs: string;
-  dishes: {};
 }

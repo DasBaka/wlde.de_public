@@ -1,18 +1,29 @@
-<aside></aside>
-<section>
+<section class="container d-flex">
+  <aside>
+    <mat-slide-toggle>Slide me!</mat-slide-toggle>
+  </aside>
   <mat-card
-    class="d-flex flex-sm-column flex-md-row"
+    class="d-flex flex-sm-column w-100 flex-md-row"
     *ngFor="let r of restaurants$ | async">
     <img
       mat-card-lg-image
-      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-      alt="Image of a Shiba Inu" />
+      src="assets/img/burger.jpg"
+      class="w-auto" />
     <mat-card-header>
-      <mat-card-title-group>
-        <mat-card-title>{{ r.name }}</mat-card-title>
-        <mat-card-subtitle>Medium</mat-card-subtitle>
-        <mat-card-subtitle>Medium</mat-card-subtitle>
-      </mat-card-title-group>
+      <img
+        mat-card-avatar
+        src="assets/img/burgerBob.png"
+        class="example-header-image" />
+      <mat-card-title>
+        <h4>{{ r.general.restaurant }}</h4>
+      </mat-card-title>
+      <mat-card-subtitle>
+        <mat-icon class="material-icons-outlined">shopping_bag</mat-icon>
+        Min. {{ r.delivery.min }} , 00€
+      </mat-card-subtitle>
+      <mat-card-subtitle
+        ><mat-icon>watch_later</mat-icon> 25 - 45min</mat-card-subtitle
+      >
     </mat-card-header>
   </mat-card>
 </section>
