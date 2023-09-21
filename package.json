@@ -1,5 +1,5 @@
 {
-  "name": "takeaway-clone",
+  "name": "takeaway-crm",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -10,18 +10,22 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^16.0.1",
     "@angular/animations": "^16.1.0",
-    "@angular/cdk": "^16.2.0",
+    "@angular/cdk": "^16.2.1",
     "@angular/common": "^16.1.0",
     "@angular/compiler": "^16.1.0",
     "@angular/core": "^16.1.0",
     "@angular/fire": "^7.6.1",
     "@angular/forms": "^16.1.0",
-    "@angular/material": "^16.2.0",
+    "@angular/material": "^16.2.1",
     "@angular/platform-browser": "^16.1.0",
     "@angular/platform-browser-dynamic": "^16.1.0",
     "@angular/router": "^16.1.0",
     "bootstrap": "^5.3.1",
+    "firebase": "^9.23.0",
+    "ngx-mat-select-search": "^7.0.4",
+    "ngx-mat-timepicker": "^16.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

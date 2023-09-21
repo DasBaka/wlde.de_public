@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "takeaway-clone",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

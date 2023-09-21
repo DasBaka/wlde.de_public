@@ -1,0 +1,111 @@
+<mat-card class="card my-0">
+  <form
+    [formGroup]="newRestaurantForm"
+    novalidate
+    (ngSubmit)="onSubmit()">
+    <mat-card-content>
+      <div
+        class="row"
+        formGroupName="hours">
+        <mat-card-title-group>
+          <mat-card-title>Opening hours</mat-card-title>
+        </mat-card-title-group>
+        <mat-selection-list
+          #time
+          class="col"
+          *ngIf="newRestaurantForm">
+          <div
+            class="row"
+            *ngFor="
+              let day of newRestaurantForm.controls['hours'].value;
+              let i = index
+            ">
+            <mat-list-option
+              #option
+              style="height: fit-content"
+              (click)="day.isOpen = option.selected"
+              [disableRipple]="true"
+              [checkboxPosition]="'before'"
+              [selected]="day.isOpen"
+              [value]="day.day">
+              <div class="row">
+                <div class="col">{{ day.day }}</div>
+                <div
+                  class="col d-flex"
+                  (click)="$event.stopPropagation()">
+                  <span
+                    [style.color]="
+                      !option.selected ? 'rgba(0, 0, 0, 0.38)' : 'initial'
+                    "
+                    >From</span
+                  >
+                  <mat-form-field class="mx-3">
+                    <input
+                      matInput
+                      name="selected_time_A"
+                      [ngxMatTimepicker]="pickerA"
+                      [placeholder]="day.time.from"
+                      readonly
+                      [disabled]="!option.selected" />
+                    <mat-icon
+                      matSuffix
+                      (click)="option.selected && pickerA.open()"
+                      [style.color]="
+                        !option.selected ? 'rgba(0, 0, 0, 0.38)' : 'initial'
+                      ">
+                      watch_later
+                    </mat-icon>
+                  </mat-form-field>
+                  <ngx-mat-timepicker
+                    #pickerA
+                    [defaultTime]="day.time.from"
+                    (timeChanged)="
+                      day.time.from = $event.toString()
+                    "></ngx-mat-timepicker>
+                  <span
+                    [style.color]="
+                      !option.selected ? 'rgba(0, 0, 0, 0.38)' : 'initial'
+                    "
+                    >to</span
+                  >
+                  <mat-form-field class="mx-3">
+                    <input
+                      matInput
+                      name="selected_time_A"
+                      [ngxMatTimepicker]="pickerB"
+                      [placeholder]="day.time.to"
+                      readonly
+                      [disabled]="!option.selected" />
+                    <mat-icon
+                      matSuffix
+                      (click)="option.selected && pickerB.open()"
+                      [style.color]="
+                        !option.selected ? 'rgba(0, 0, 0, 0.38)' : 'initial'
+                      ">
+                      watch_later
+                    </mat-icon>
+                  </mat-form-field>
+                  <ngx-mat-timepicker
+                    #pickerB
+                    [defaultTime]="day.time.from"
+                    (timeChanged)="
+                      day.time.from = $event.toString()
+                    "></ngx-mat-timepicker>
+                </div>
+              </div>
+            </mat-list-option>
+          </div>
+        </mat-selection-list>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit">
+        Submit
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

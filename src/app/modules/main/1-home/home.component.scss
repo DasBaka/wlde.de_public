@@ -1,0 +1,32 @@
+@use '../../../../styles/base/material' as *;
+@use '@angular/material' as mat;
+
+.grid-container {
+  margin: 20px;
+}
+
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  @include mat.elevation-transition();
+  @include mat.elevation(2);
+
+  &,
+  & * {
+    cursor: pointer;
+  }
+
+  &:hover {
+    @extend .bg-mat-accent;
+    @include mat.elevation(8);
+  }
+}
+
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}

@@ -1,0 +1,30 @@
+<div class="grid-container">
+  <mat-grid-list
+    cols="2"
+    rowHeight="350px">
+    <mat-grid-tile
+      *ngFor="let card of cards | async"
+      [colspan]="card.cols"
+      [rowspan]="card.rows">
+      <mat-card
+        class="dashboard-card"
+        tabindex="0"
+        [routerLink]="[card.link]">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="material-icons-two-tone">{{ card.icon }}</mat-icon>
+            {{ card.title }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <mat-list>
+            <mat-list-item *ngFor="let text of card.text"
+              ><mat-icon>{{ card.icon }}</mat-icon
+              >{{ text }}</mat-list-item
+            >
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

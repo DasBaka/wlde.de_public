@@ -4,56 +4,108 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationComponent } from './modules/navigation/navigation.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { FrontpageComponent } from './main/frontpage/frontpage.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { HomeComponent } from './modules/main/1-home/home.component';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
-import { RestaurantsComponent } from './main/restaurants/restaurants.component';
-import { AccountComponent } from './main/account/account.component';
-import { ContactComponent } from './main/contact/contact.component';
-import { ImprintComponent } from './main/imprint/imprint.component';
-import { PoliciesComponent } from './main/policies/policies.component';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import {
+  MAT_DIALOG_DEFAULT_OPTIONS,
+  MatDialogModule,
+} from '@angular/material/dialog';
+import { UsersComponent } from './modules/main/3-users/users.component';
+import { OrdersComponent } from './modules/main/2-orders/orders.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ResponsibleComponent } from './modules/main/5-restaurant/responsible/responsible.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { TagsComponent } from './modules/main/4-dishes/tags/tags.component';
+import { DishListComponent } from './modules/main/4-dishes/dish-list/dish-list.component';
+import { AddDishComponent } from './modules/main/4-dishes/add-dish/add-dish.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { DeleteDialogComponent } from './modules/dialog/delete-dialog/delete-dialog.component';
+import { AutofocusDirective } from './core/directives/autofocus.directive';
+import { DeliveryHoursComponent } from './modules/main/5-restaurant/delivery-hours/delivery-hours.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    FrontpageComponent,
-    RestaurantsComponent,
-    AccountComponent,
-    ContactComponent,
-    ImprintComponent,
-    PoliciesComponent,
+    NavigationComponent,
+    HomeComponent,
+    UsersComponent,
+    OrdersComponent,
+    ResponsibleComponent,
+    TagsComponent,
+    DishListComponent,
+    AddDishComponent,
+    DeleteDialogComponent,
+    AutofocusDirective,
+    DeliveryHoursComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule,
     MatToolbarModule,
-    MatIconModule,
     MatButtonModule,
-    MatInputModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatGridListModule,
     MatCardModule,
+    MatMenuModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    NgxMatTimepickerModule,
+    MatExpansionModule,
     MatChipsModule,
-    MatSlideToggleModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
+    MatSnackBarModule,
+    provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
+    provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage()),
+    provideAuth(() => getAuth()),
+    provideAuth(() => getAuth(getApp('clone'))),
+    DragDropModule,
+    MatTreeModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        enterAnimationDuration: '250ms',
+        exitAnimationDuration: '250ms',
+        disableClose: true,
+        closeOnNavigation: true,
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

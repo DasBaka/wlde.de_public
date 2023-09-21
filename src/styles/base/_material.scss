@@ -14,16 +14,15 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
-$takeaway-clone-secondary: mat.define-palette(mat.$blue-gray-palette);
-$takeaway-clone-accent: mat.define-palette(
-  mat.$light-blue-palette,
-  A200,
-  A100,
-  A400
-);
+$takeaway-clone-accent: mat.define-palette(mat.$grey-palette, 500, A400, A700);
 
 // The warn palette is optional (defaults to red).
 $takeaway-clone-warn: mat.define-palette(mat.$red-palette);
+
+$custom-typography: mat.define-typography-config(
+  $font-family:
+    "'Roboto', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'Helvetica', 'Arial',  sans-serif",
+);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -31,10 +30,10 @@ $takeaway-clone-theme: mat.define-light-theme(
   (
     color: (
       primary: $takeaway-clone-primary,
-      secondary: $takeaway-clone-secondary,
       accent: $takeaway-clone-accent,
       warn: $takeaway-clone-warn,
     ),
+    typography: $custom-typography,
   )
 );
 
@@ -47,23 +46,25 @@ $takeaway-clone-theme: mat.define-light-theme(
 /* You can add global styles to this file, and also import other style files */
 
 .bg-mat-primary {
-  background: mat.get-color-from-palette($takeaway-clone-primary, 600);
+  background: mat.get-color-from-palette(
+    $takeaway-clone-primary,
+    600
+  ) !important;
 }
 
 .bg-mat-accent {
-  background: mat.get-color-from-palette($takeaway-clone-accent, 50);
+  background: mat.get-color-from-palette(
+    $takeaway-clone-accent,
+    300
+  ) !important;
 }
 
 .bg-mat-white {
-  background-color: white;
+  background-color: white !important;
 }
 
-.bg-mat-whitesmoke {
-  background-color: whitesmoke;
-}
-
-.mat-color-secondary {
-  color: mat.get-color-from-palette($takeaway-clone-secondary, 400);
+.mat-color-accent {
+  color: mat.get-color-from-palette($takeaway-clone-accent, 300) !important;
 }
 
 $mat-icons-suffix: ('', '-outlined', '-round', '-sharp', '-two-tone');
@@ -85,10 +86,13 @@ $mat-icons-suffix: ('', '-outlined', '-round', '-sharp', '-two-tone');
     @if ($suffix != '') {
       $sliced: string.slice($suffix, 2);
       $first: string.slice($sliced, 1, 1);
-
-      font-family: #{'Material Icons ' +
-        string.to-upper-case($first) +
-        string.slice($sliced, 2)};
+      @if ($suffix == '-two-tone') {
+        font-family: 'Material Icons Two Tone';
+      } @else {
+        font-family: #{'Material Icons ' +
+          string.to-upper-case($first) +
+          string.slice($sliced, 2)};
+      }
     } @else {
       font-family: 'Material Icons';
     }

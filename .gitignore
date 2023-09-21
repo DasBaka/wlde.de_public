@@ -45,7 +45,4 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
-/.firebaserc
-/firebase.json
-/src/environments
-/src/assets
+/src/assets/fonts

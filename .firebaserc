@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "takeaway-clone-crm": {
+      "hosting": {
+        "takeaway-crm": [
+          "takeaway-clone-crm"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "takeaway-clone-crm"
+  }
+}
