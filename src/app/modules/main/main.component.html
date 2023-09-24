@@ -1,0 +1,65 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    position="end"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Warenkorb</mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar
+      color="primary"
+      class="d-flex justify-content-between">
+      <span>wir-liefern-dein-essen.de</span>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()">
+        <mat-icon
+          aria-label="Side nav toggle icon"
+          class="mat-icon-filled"
+          >shopping_cart</mat-icon
+        >
+      </button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <img
+      src="../../../assets/img/pexels-destiawan-nur-agustra-1034940.jpg"
+      class="main-img" />
+    <div class="container overflow-x-scroll">
+      <mat-chip-listbox
+        multiple
+        class="d-flex flex-nowrap">
+        <mat-chip-option *ngFor="let tag of dataService.tagColl$ | async">{{
+          tag.tag
+        }}</mat-chip-option>
+      </mat-chip-listbox>
+      <mat-card *ngFor="let dish of dataService.dishColl$ | async">
+        <mat-card-header class="w-100">
+          <mat-card-title-group>
+            <mat-card-title>{{ dish.name }}</mat-card-title>
+            <mat-card-subtitle>{{ dish.text }}</mat-card-subtitle>
+          </mat-card-title-group>
+          <mat-card-title-group class="d-flex justify-content-end">
+            <br />
+            <mat-card-title>{{ dish.cost }}</mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-actions class="d-flex justify-content-end">
+          <button
+            mat-icon-button
+            color="primary">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- *ngIf="isHandset$ | async" -->

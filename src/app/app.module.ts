@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { HomeComponent } from './modules/main/1-home/home.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -32,34 +31,18 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
 } from '@angular/material/dialog';
-import { UsersComponent } from './modules/main/3-users/users.component';
-import { OrdersComponent } from './modules/main/2-orders/orders.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { ResponsibleComponent } from './modules/main/5-restaurant/responsible/responsible.component';
-import { MatTreeModule } from '@angular/material/tree';
-import { TagsComponent } from './modules/main/4-dishes/tags/tags.component';
-import { DishListComponent } from './modules/main/4-dishes/dish-list/dish-list.component';
-import { AddDishComponent } from './modules/main/4-dishes/add-dish/add-dish.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeleteDialogComponent } from './modules/dialog/delete-dialog/delete-dialog.component';
-import { AutofocusDirective } from './core/directives/autofocus.directive';
-import { DeliveryHoursComponent } from './modules/main/5-restaurant/delivery-hours/delivery-hours.component';
+import { MainComponent } from './modules/main/main.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
-    HomeComponent,
-    UsersComponent,
-    OrdersComponent,
-    ResponsibleComponent,
-    TagsComponent,
-    DishListComponent,
-    AddDishComponent,
     DeleteDialogComponent,
-    AutofocusDirective,
-    DeliveryHoursComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,14 +69,13 @@ import { DeliveryHoursComponent } from './modules/main/5-restaurant/delivery-hou
     MatExpansionModule,
     MatChipsModule,
     MatSnackBarModule,
+    MatTabsModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
     provideAuth(() => getAuth()),
     provideAuth(() => getAuth(getApp('clone'))),
-    DragDropModule,
-    MatTreeModule,
   ],
   providers: [
     {
