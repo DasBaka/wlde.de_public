@@ -7,10 +7,13 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Warenkorb</mat-toolbar>
+    <mat-toolbar class="d-flex justify-content-center">Warenkorb</mat-toolbar>
+    <mat-divider class="pb-1"></mat-divider>
     <div class="d-flex flex-column justify-content-between cart overflow-auto">
-      <div class="overflow-auto">
-        <mat-card *ngFor="let item of cart">
+      <div class="overflow-auto d-flex flex-column-reverse gap-1">
+        <mat-card
+          appearance="outlined"
+          *ngFor="let item of cart">
           <mat-card-header class="w-100">
             <mat-card-title-group>
               <mat-card-title>{{ item.count }}x {{ item.name }}</mat-card-title>
@@ -35,24 +38,30 @@
           </mat-card-actions>
         </mat-card>
       </div>
-      <mat-card *ngIf="this.cart.length > 0">
-        <mat-card-header class="w-100">
-          <mat-card-title-group>
-            <mat-card-title>Gesamt</mat-card-title>
-          </mat-card-title-group>
-          <mat-card-title-group class="d-flex justify-content-end">
-            <mat-card-title>{{ priceOfItems() }}</mat-card-title>
-          </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-actions
-          ><button
-            mat-fab
-            extended
-            color="primary">
-            Bestellen
-          </button></mat-card-actions
-        >
-      </mat-card>
+      <div>
+        <mat-divider></mat-divider>
+        <mat-card
+          appearance="outlined"
+          *ngIf="this.cart.length > 0"
+          class="mb-5 border-0">
+          <mat-card-header class="w-100">
+            <mat-card-title-group>
+              <mat-card-title>Gesamt</mat-card-title>
+            </mat-card-title-group>
+            <mat-card-title-group class="d-flex justify-content-end">
+              <mat-card-title>{{ priceOfItems() }}</mat-card-title>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-actions class="d-flex justify-content-center"
+            ><button
+              mat-fab
+              extended
+              color="primary">
+              <span class="px-3 mat-h4">Bestellen</span>
+            </button></mat-card-actions
+          >
+        </mat-card>
+      </div>
     </div>
   </mat-sidenav>
   <mat-sidenav-content class="no-scrollbar">
@@ -78,32 +87,47 @@
     <img
       src="../../../assets/img/pexels-destiawan-nur-agustra-1034940.jpg"
       class="main-img" />
-    <div class="container d-flex flex-column flex-grow-1 gap-2">
+    <div
+      class="container d-flex flex-column flex-grow-1 gap-2 mb-5 position-relative">
+      <div>
+        <h1 class="text-center">Wir liefern dein Essen!</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+          cupiditate blanditiis fugiat mollitia repellat, incidunt velit numquam
+          praesentium, facilis repellendus doloremque voluptatem cum quasi,
+          sapiente asperiores nostrum necessitatibus fugit ipsum.
+        </p>
+      </div>
       <div class="d-flex">
         <div class="tag-btn-wrapper">
           <button
             mat-icon-button
             class="scroll-btn left-btn"
-            [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 0 : false"
+            [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 8 : false"
             color="accent"
             (click)="scrollTags(-1)">
             <mat-icon>arrow_circle_left</mat-icon>
           </button>
         </div>
-        <!-- <mat-divider [vertical]="true"></mat-divider> -->
-        <div
-          class="tag-wrapper gap-3 mt-2 px-3 snaps-inline"
-          (scroll)="scrolled()"
-          #tagWrapper>
-          <mat-chip-option *ngFor="let tag of dataService.tagColl$ | async"
-            ><span
-              class="px-3 py-2"
-              style="font-size: 1.075rem"
-              >{{ tag.tag }}</span
-            ></mat-chip-option
-          >
-        </div>
-        <!-- <mat-divider [vertical]="true"></mat-divider> -->
+        <mat-chip-listbox
+          class="overflow-auto"
+          multiple="true"
+          #tagList>
+          <div
+            class="tag-wrapper gap-3 mt-2 px-3 snaps-inline"
+            (scroll)="scrolled()"
+            #tagWrapper>
+            <mat-chip-option
+              *ngFor="let tag of dataService.tagColl$ | async"
+              (click)="selectedTags = tagList.value"
+              ><span
+                class="px-3 py-2"
+                style="font-size: 1.075rem"
+                >{{ tag.tag }}</span
+              ></mat-chip-option
+            >
+          </div>
+        </mat-chip-listbox>
         <div class="tag-btn-wrapper">
           <button
             mat-icon-button
@@ -122,7 +146,9 @@
         </div>
       </div>
       <mat-divider></mat-divider>
-      <mat-card *ngFor="let dish of dataService.dishColl$ | async">
+      <mat-card
+        *ngFor="let dish of dataService.dishColl$ | async"
+        [class.d-none]="!selection(dish.tags) && selectedTags.length > 0">
         <mat-card-header class="w-100">
           <mat-card-title-group>
             <mat-card-title>{{ dish.name }}</mat-card-title>

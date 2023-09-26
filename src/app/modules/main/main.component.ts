@@ -11,18 +11,20 @@ import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
 import { CurrencyFormatterService } from 'src/app/core/services/currency-formatter.service';
+import { Dish } from 'src/models/classes/dish.class';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements AfterViewInit {
+export class MainComponent {
   private breakpointObserver = inject(BreakpointObserver);
   dataService: FirestoreDataService = inject(FirestoreDataService);
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
-  tags: string[] = [];
   cart: CartItem[] = [];
+  selectedTags = [];
+  filteredObservable$!: Observable<any[]>;
 
   @ViewChild('tagWrapper') tagDiv!: ElementRef;
 
@@ -32,16 +34,6 @@ export class MainComponent implements AfterViewInit {
       map((result) => result.matches),
       shareReplay()
     );
-
-  lotsOfTabs = new Array(30).fill(0).map((_, index) => `Tab ${index}`);
-
-  ngAfterViewInit(): void {
-    this.dataService.tagColl$.subscribe((data) => {
-      data.forEach((item: { tag: string }) => {
-        this.tags.push(item.tag);
-      });
-    });
-  }
 
   scrolled() {
     if (this.tagDiv) {
@@ -106,6 +98,16 @@ export class MainComponent implements AfterViewInit {
       return this.currencyService.price(sum);
     }
     return;
+  }
+
+  selection(tags: []) {
+    let a: boolean[] = [];
+    this.selectedTags.forEach((tag) => {
+      a.push(tags.includes(tag));
+    });
+    return a.some((v) => {
+      return v;
+    });
   }
 }
 

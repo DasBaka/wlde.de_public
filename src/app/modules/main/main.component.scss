@@ -4,6 +4,10 @@
 
 .sidenav {
   width: 360px;
+
+  &[role='dialog'] {
+    width: 80vw;
+  }
 }
 
 .sidenav .mat-toolbar {
@@ -88,5 +92,13 @@
 }
 
 .cart {
-  height: calc(100% - 64px);
+  height: calc(100% - 64px - 0.5rem);
+
+  > div {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }
