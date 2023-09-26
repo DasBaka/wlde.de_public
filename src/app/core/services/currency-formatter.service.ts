@@ -20,4 +20,10 @@ export class CurrencyFormatterService {
     let num = parseInt(sNum.replace(/\D/g, '')) / 100;
     return this.price(num);
   }
+
+  num(s: string) {
+    let sNum = s.slice(1, s.length);
+    let num = parseInt(sNum.replace(/\D/g, '')) / 100;
+    return num;
+  }
 }

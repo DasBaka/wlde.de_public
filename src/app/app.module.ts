@@ -36,6 +36,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DeleteDialogComponent } from './modules/dialog/delete-dialog/delete-dialog.component';
 import { MainComponent } from './modules/main/main.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatChipsModule,
     MatSnackBarModule,
     MatTabsModule,
+    MatBadgeModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),

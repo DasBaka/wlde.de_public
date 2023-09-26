@@ -8,9 +8,54 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false">
     <mat-toolbar>Warenkorb</mat-toolbar>
-    <router-outlet></router-outlet>
+    <div class="d-flex flex-column justify-content-between cart overflow-auto">
+      <div class="overflow-auto">
+        <mat-card *ngFor="let item of cart">
+          <mat-card-header class="w-100">
+            <mat-card-title-group>
+              <mat-card-title>{{ item.count }}x {{ item.name }}</mat-card-title>
+            </mat-card-title-group>
+            <mat-card-title-group class="d-flex justify-content-end">
+              <mat-card-title>{{ item.price }}</mat-card-title>
+            </mat-card-title-group>
+          </mat-card-header>
+          <mat-card-actions class="d-flex justify-content-end">
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="adjustCount(item, -1)">
+              <mat-icon>remove</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              (click)="adjustCount(item, 1)">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <mat-card *ngIf="this.cart.length > 0">
+        <mat-card-header class="w-100">
+          <mat-card-title-group>
+            <mat-card-title>Gesamt</mat-card-title>
+          </mat-card-title-group>
+          <mat-card-title-group class="d-flex justify-content-end">
+            <mat-card-title>{{ priceOfItems() }}</mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-actions
+          ><button
+            mat-fab
+            extended
+            color="primary">
+            Bestellen
+          </button></mat-card-actions
+        >
+      </mat-card>
+    </div>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content class="no-scrollbar">
     <mat-toolbar
       color="primary"
       class="d-flex justify-content-between">
@@ -22,6 +67,8 @@
         (click)="drawer.toggle()">
         <mat-icon
           aria-label="Side nav toggle icon"
+          matBadge="{{ sumOfItems() || '' }}"
+          matBadgeColor="accent"
           class="mat-icon-filled"
           >shopping_cart</mat-icon
         >
@@ -31,14 +78,50 @@
     <img
       src="../../../assets/img/pexels-destiawan-nur-agustra-1034940.jpg"
       class="main-img" />
-    <div class="container overflow-x-scroll">
-      <mat-chip-listbox
-        multiple
-        class="d-flex flex-nowrap">
-        <mat-chip-option *ngFor="let tag of dataService.tagColl$ | async">{{
-          tag.tag
-        }}</mat-chip-option>
-      </mat-chip-listbox>
+    <div class="container d-flex flex-column flex-grow-1 gap-2">
+      <div class="d-flex">
+        <div class="tag-btn-wrapper">
+          <button
+            mat-icon-button
+            class="scroll-btn left-btn"
+            [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 0 : false"
+            color="accent"
+            (click)="scrollTags(-1)">
+            <mat-icon>arrow_circle_left</mat-icon>
+          </button>
+        </div>
+        <!-- <mat-divider [vertical]="true"></mat-divider> -->
+        <div
+          class="tag-wrapper gap-3 mt-2 px-3 snaps-inline"
+          (scroll)="scrolled()"
+          #tagWrapper>
+          <mat-chip-option *ngFor="let tag of dataService.tagColl$ | async"
+            ><span
+              class="px-3 py-2"
+              style="font-size: 1.075rem"
+              >{{ tag.tag }}</span
+            ></mat-chip-option
+          >
+        </div>
+        <!-- <mat-divider [vertical]="true"></mat-divider> -->
+        <div class="tag-btn-wrapper">
+          <button
+            mat-icon-button
+            class="scroll-btn right-btn"
+            [class.show]="
+              tagDiv
+                ? tagDiv.nativeElement.scrollLeft <
+                  tagDiv.nativeElement.scrollWidth -
+                    tagDiv.nativeElement.offsetWidth
+                : false
+            "
+            color="accent"
+            (click)="scrollTags(1)">
+            <mat-icon>arrow_circle_right</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
       <mat-card *ngFor="let dish of dataService.dishColl$ | async">
         <mat-card-header class="w-100">
           <mat-card-title-group>
@@ -53,7 +136,8 @@
         <mat-card-actions class="d-flex justify-content-end">
           <button
             mat-icon-button
-            color="primary">
+            color="primary"
+            (click)="addToCart(dish)">
             <mat-icon>add</mat-icon>
           </button>
         </mat-card-actions>

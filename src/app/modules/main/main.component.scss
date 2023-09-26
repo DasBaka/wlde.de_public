@@ -3,7 +3,7 @@
 }
 
 .sidenav {
-  width: 200px;
+  width: 360px;
 }
 
 .sidenav .mat-toolbar {
@@ -30,6 +30,63 @@
   max-width: 150px;
 }
 
-div.mat-mdc-form-field-infix {
-  padding: 0 !important;
+.tag-wrapper {
+  display: grid !important;
+  grid-auto-flow: column;
+  height: 48px;
+  transition: width 0.25s ease-in-out;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.snaps-inline {
+  -ms-scroll-snap-type: inline mandatory;
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: 1rem;
+  scroll-behavior: smooth;
+
+  > * {
+    scroll-snap-align: start;
+  }
+}
+
+.tag-btn-wrapper {
+  transition: width 0.25s ease-in-out;
+  transition-delay: 0.25s;
+  &:has(> .scroll-btn:not(.show)) {
+    width: 0;
+  }
+
+  &:has(> .scroll-btn.show) {
+    width: 48px;
+  }
+}
+
+.scroll-btn {
+  transform: scale(0, 1) translateX(0);
+  transition: transform 0.25s ease-in-out;
+
+  &.show {
+    transform: scale(1, 1) translateX(0);
+    transition: transform 0.25s ease-in-out;
+
+    &.left-btn {
+      transform-origin: left;
+    }
+    &.right-btn {
+      transform-origin: right;
+    }
+  }
+}
+
+.cart {
+  height: calc(100% - 64px);
 }

@@ -20,3 +20,11 @@ simple-snack-bar div {
   margin: auto;
   text-align: center;
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
