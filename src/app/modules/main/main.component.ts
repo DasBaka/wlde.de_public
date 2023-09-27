@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
@@ -11,14 +12,14 @@ import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
 import { CurrencyFormatterService } from 'src/app/core/services/currency-formatter.service';
-import { Dish } from 'src/models/classes/dish.class';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   dataService: FirestoreDataService = inject(FirestoreDataService);
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
@@ -34,6 +35,17 @@ export class MainComponent {
       map((result) => result.matches),
       shareReplay()
     );
+
+  constructor(private router: Router, private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    if (this.getTimeFromLS() + 30 * 60 * 1000 < Date.now()) {
+      localStorage.clear();
+    }
+    if (localStorage.getItem('cart') !== null) {
+      this.cart = this.getCartFromLS();
+    }
+  }
 
   scrolled() {
     if (this.tagDiv) {
@@ -58,6 +70,7 @@ export class MainComponent {
       this.cart.push(dish);
     }
     this.calcPrice(dish);
+    this.setCartToLS();
   }
 
   adjustCount(dish: CartItem, add: number) {
@@ -66,6 +79,9 @@ export class MainComponent {
     d.count += add;
     if (d.count == 0) {
       this.cart.splice(i, 1);
+      if (this.cart.length == 0) {
+        localStorage.clear();
+      }
     } else {
       this.calcPrice(dish);
     }
@@ -107,6 +123,25 @@ export class MainComponent {
     });
     return a.some((v) => {
       return v;
+    });
+  }
+
+  setCartToLS() {
+    localStorage.setItem('time', Date.now().toString());
+    localStorage.setItem('cart', JSON.stringify(this.cart));
+  }
+
+  getCartFromLS() {
+    return JSON.parse(localStorage.getItem('cart') ?? '');
+  }
+  getTimeFromLS() {
+    return parseInt(localStorage.getItem('time') ?? '');
+  }
+
+  toCheckout() {
+    this.router.navigate(['order/address'], {
+      relativeTo: this.route,
+      state: { cart: this.cart, price: this.priceOfItems() },
     });
   }
 }

@@ -52,6 +52,10 @@ $takeaway-clone-theme: mat.define-light-theme(
   ) !important;
 }
 
+.bg-mat-app-background {
+  @extend .mat-app-background;
+}
+
 .bg-mat-accent {
   background: mat.get-color-from-palette(
     $takeaway-clone-accent,

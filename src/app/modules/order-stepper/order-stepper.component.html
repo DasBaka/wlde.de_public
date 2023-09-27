@@ -1,0 +1,50 @@
+<mat-sidenav-container>
+  <mat-sidenav-content>
+    <!-- class="no-scrollbar" -->
+    <mat-toolbar
+      color="primary"
+      class="d-flex justify-content-between">
+      <span>wir-liefern-dein-essen.de</span>
+      <div>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">account_circle</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">info</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <div class="position-relative text-center">
+      <img
+        src="../../../assets/img/cooks-1661131_1920.jpg"
+        class="main-img" />
+      <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
+    </div>
+    <div class="container">
+      <mat-stepper
+        linear
+        #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <ng-template matStepLabel>Wohin soll es gehen?</ng-template>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <ng-template matStepLabel>Ein letzter Blick darüber...</ng-template>
+          <router-outlet></router-outlet>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Dein Essen ist unterwegs!</ng-template>
+          <router-outlet></router-outlet>
+        </mat-step>
+      </mat-stepper>
+      <mat-divider
+        class="stepper-divider"
+        #divider></mat-divider>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

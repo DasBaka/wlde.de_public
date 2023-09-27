@@ -27,9 +27,19 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MainComponent } from './modules/main/main.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
+import { CheckoutComponent } from './modules/order-stepper/checkout/checkout.component';
+import { OrderStepperComponent } from './modules/order-stepper/order-stepper.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { AddressComponent } from './modules/order-stepper/address/address.component';
 
 @NgModule({
-  declarations: [AppComponent, MainComponent],
+  declarations: [
+    AppComponent,
+    MainComponent,
+    CheckoutComponent,
+    OrderStepperComponent,
+    AddressComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -52,6 +62,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatSnackBarModule,
     MatTabsModule,
     MatBadgeModule,
+    MatStepperModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),

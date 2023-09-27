@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="h-100">
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -56,8 +56,11 @@
             ><button
               mat-fab
               extended
-              color="primary">
-              <span class="px-3 mat-h4">Bestellen</span>
+              color="primary"
+              (click)="toCheckout()">
+              <mat-icon>shopping_cart_checkout</mat-icon>
+
+              <span class="px-3 mat-h4"><b>Bestellen</b></span>
             </button></mat-card-actions
           >
         </mat-card>
@@ -69,19 +72,24 @@
       color="primary"
       class="d-flex justify-content-between">
       <span>wir-liefern-dein-essen.de</span>
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()">
-        <mat-icon
-          aria-label="Side nav toggle icon"
-          matBadge="{{ sumOfItems() || '' }}"
-          matBadgeColor="accent"
-          class="mat-icon-filled"
-          >shopping_cart</mat-icon
-        >
-      </button>
+      <div>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">account_circle</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">info</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon class="mat-icon-filled">shopping_cart</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <!-- Add Content Here -->
     <img
@@ -90,7 +98,7 @@
     <div
       class="container d-flex flex-column flex-grow-1 gap-2 mb-5 position-relative">
       <div>
-        <h1 class="text-center">Wir liefern dein Essen!</h1>
+        <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
           cupiditate blanditiis fugiat mollitia repellat, incidunt velit numquam
