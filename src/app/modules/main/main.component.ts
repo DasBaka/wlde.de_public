@@ -36,7 +36,9 @@ export class MainComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.checkLSForOrder();
+  }
 
   ngOnInit(): void {
     if (this.getTimeFromLS() + 30 * 60 * 1000 < Date.now()) {
@@ -44,6 +46,22 @@ export class MainComponent implements OnInit {
     }
     if (localStorage.getItem('cart') !== null) {
       this.cart = this.getCartFromLS();
+    }
+  }
+
+  checkLSForOrder() {
+    if (localStorage.getItem('timestamp')) {
+      let t = JSON.parse(localStorage.getItem('timestamp') || '');
+      let h = 3600000;
+      if (Date.now() - parseInt(t) > h) {
+        localStorage.clear();
+        return;
+      } else {
+        if (localStorage.getItem('orderId')) {
+          let ls = localStorage.getItem('orderId');
+          this.router.navigate(['your-order/' + ls]);
+        }
+      }
     }
   }
 
@@ -139,7 +157,7 @@ export class MainComponent implements OnInit {
   }
 
   toCheckout() {
-    this.router.navigate(['order/address'], {
+    this.router.navigate(['order'], {
       relativeTo: this.route,
       state: { cart: this.cart, price: this.priceOfItems() },
     });

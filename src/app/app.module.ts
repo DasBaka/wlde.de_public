@@ -31,6 +31,8 @@ import { CheckoutComponent } from './modules/order-stepper/checkout/checkout.com
 import { OrderStepperComponent } from './modules/order-stepper/order-stepper.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { AddressComponent } from './modules/order-stepper/address/address.component';
+import { DoneComponent } from './modules/order-stepper/done/done.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { AddressComponent } from './modules/order-stepper/address/address.compon
     CheckoutComponent,
     OrderStepperComponent,
     AddressComponent,
+    DoneComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +66,7 @@ import { AddressComponent } from './modules/order-stepper/address/address.compon
     MatTabsModule,
     MatBadgeModule,
     MatStepperModule,
+    MatProgressBarModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),

@@ -68,7 +68,7 @@ $takeaway-clone-theme: mat.define-light-theme(
 }
 
 .mat-color-accent {
-  color: mat.get-color-from-palette($takeaway-clone-accent, 300) !important;
+  color: mat.get-color-from-palette($takeaway-clone-accent, 500) !important;
 }
 
 $mat-icons-suffix: ('', '-outlined', '-round', '-sharp', '-two-tone');

@@ -1,5 +1,5 @@
-<mat-sidenav-container>
-  <mat-sidenav-content>
+<mat-sidenav-container class="h-100">
+  <mat-sidenav-content class="no-scrollbar">
     <!-- class="no-scrollbar" -->
     <mat-toolbar
       color="primary"
@@ -27,24 +27,26 @@
     </div>
     <div class="container">
       <mat-stepper
+        [disableRipple]="true"
         linear
         #stepper>
-        <mat-step [stepControl]="firstFormGroup">
+        <mat-step [stepControl]="controlAddress">
           <ng-template matStepLabel>Wohin soll es gehen?</ng-template>
+          <app-address (controlAddress)="nextStep($event)"></app-address>
         </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
+        <mat-step>
           <ng-template matStepLabel>Ein letzter Blick darüber...</ng-template>
-          <router-outlet></router-outlet>
+          <app-checkout
+            [customer]="customerData"
+            [order]="order"
+            [price]="price"
+            (onOrder)="placeOrder()"></app-checkout>
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Dein Essen ist unterwegs!</ng-template>
-          <router-outlet></router-outlet>
+          <app-done></app-done>
         </mat-step>
       </mat-stepper>
-      <mat-divider
-        class="stepper-divider"
-        #divider></mat-divider>
-      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

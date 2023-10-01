@@ -9,13 +9,32 @@
   object-position: calc(center - 20%);
 }
 
+.mat-toolbar.mat-primary {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .img-text {
   position: absolute;
-  top: 40%;
+  top: 50%;
   color: #fafafa;
 }
 
 mat-stepper {
+  @extend .mat-app-background;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
   @extend .mat-app-background;
 }
 

@@ -8,6 +8,7 @@ import { MainComponent } from './modules/main/main.component';
 import { CheckoutComponent } from './modules/order-stepper/checkout/checkout.component';
 import { AddressComponent } from './modules/order-stepper/address/address.component';
 import { OrderStepperComponent } from './modules/order-stepper/order-stepper.component';
+import { DoneComponent } from './modules/order-stepper/done/done.component';
 
 const routes: Routes = [
   {
@@ -18,16 +19,14 @@ const routes: Routes = [
   {
     path: 'order',
     title: 'Du bestellst, wir liefern | wlde.de',
-    children: [
-      {
-        path: 'address',
-        title: 'Du bestellst, wir liefern | wlde.de',
-        component: AddressComponent,
-      },
-      { path: '', redirectTo: '/', pathMatch: 'full' },
-    ],
     component: OrderStepperComponent,
   },
+  {
+    path: 'your-order/:id',
+    title: 'Du bestellst, wir liefern | wlde.de',
+    component: DoneComponent,
+  },
+
   {
     path: '',
     redirectTo: '',

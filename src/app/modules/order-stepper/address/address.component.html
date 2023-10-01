@@ -56,7 +56,7 @@
     </mat-card>
   </div>
   <form
-    [formGroup]="addressForm"
+    [formGroup]="customerForm"
     novalidate
     (ngSubmit)="onSubmit()">
     <mat-card class="shipping-card">
@@ -64,145 +64,199 @@
         <mat-card-title><h1>Lieferadresse</h1></mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                placeholder="Company"
-                formControlName="company" />
-            </mat-form-field>
+        <div formGroupName="customer">
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Vorname</mat-label>
+                <input
+                  matInput
+                  placeholder="Customer's firstname"
+                  formControlName="firstname" />
+                <mat-error
+                  *ngIf="
+                    customerForm.get('customer.firstname')?.hasError('required')
+                  ">
+                  Vorname muss <strong>ausgefüllt</strong> sein!
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Name</mat-label>
+                <input
+                  matInput
+                  placeholder="Customer's lastname"
+                  formControlName="lastname" />
+                <mat-error
+                  *ngIf="
+                    customerForm.get('customer.lastname')?.hasError('required')
+                  ">
+                  Name muss <strong>ausgefüllt</strong> sein!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Firma</mat-label>
+                <input
+                  matInput
+                  placeholder="Customer's firstname"
+                  formControlName="company" />
+              </mat-form-field>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                placeholder="First name"
-                formControlName="firstName" />
-              <mat-error
-                *ngIf="addressForm.controls['firstName'].hasError('required')">
-                First name is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                placeholder="Last name"
-                formControlName="lastName" />
-              <mat-error
-                *ngIf="addressForm.controls['lastName'].hasError('required')">
-                Last name is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <textarea
-                matInput
-                placeholder="Address"
-                formControlName="address"></textarea>
-              <mat-error
-                *ngIf="addressForm.controls['address'].hasError('required')">
-                Address is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
+        <div formGroupName="contact">
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Email</mat-label>
+                <input
+                  required
+                  matInput
+                  placeholder="Contact email address"
+                  formControlName="mail" />
+                <mat-error *ngIf="customerForm.get('contact.mail')?.errors">
+                  <strong>Keine gültige</strong> Email-Adresse!
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Telefone / Mobil</mat-label>
+                <input
+                  matInput
+                  required
+                  placeholder="Contact telephone number"
+                  formControlName="phone" />
+                <mat-error *ngIf="customerForm.get('contact.phone')?.errors">
+                  Es <strong>muss</strong> eine Telfonnummer angegeben werden!
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-        <div
-          class="row"
-          *ngIf="!hasUnitNumber">
-          <div class="col">
-            <button
-              mat-button
-              type="button"
-              (click)="hasUnitNumber = !hasUnitNumber">
-              + Add C/O, Apt, Suite, Unit
-            </button>
+
+        <mat-divider></mat-divider>
+
+        <!-- Address -->
+        <div formGroupName="address">
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Hausanschrift</mat-label>
+                <input
+                  matInput
+                  placeholder="Address"
+                  formControlName="street" />
+                <mat-error
+                  *ngIf="
+                    customerForm.get('address.street')?.hasError('required')
+                  ">
+                  Eine Hausanschrift <strong>muss</strong> angegeben werden.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-2">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Nr.</mat-label>
+                <input
+                  matInput
+                  placeholder="House number"
+                  formControlName="house" />
+                <mat-error
+                  *ngIf="
+                    customerForm.get('address.house')?.hasError('required')
+                  ">
+                  Eine Hausnummer <strong>muss</strong> angegeben werden!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>Stadt</mat-label>
+                <input
+                  matInput
+                  placeholder="City"
+                  formControlName="city" />
+                <mat-error
+                  *ngIf="
+                    customerForm.get('address.city')?.hasError('required')
+                  ">
+                  Bitte die Stadt der Wohnanschrift angeben!
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-2">
+              <mat-form-field
+                appearance="outline"
+                class="full-width">
+                <mat-label>PLZ</mat-label>
+                <input
+                  matInput
+                  #postalCode
+                  maxlength="5"
+                  minlength="5"
+                  inputmode="numeric"
+                  placeholder="_ _ _ _ _"
+                  type="text"
+                  formControlName="postalCode" />
+                <mat-hint align="end"
+                  >{{ postalCode.value.length }} / 5</mat-hint
+                >
+                <mat-error
+                  *ngIf="
+                    customerForm.get('address.postalCode')?.hasError('required')
+                  ">
+                  PLZ ist <strong>verpflichtend</strong>!
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    customerForm.get('address.postalCode')?.hasError('pattern')
+                  ">
+                  Die PLZ muss <strong>fünf Ziffern</strong> besitzen!
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-        <div
-          class="row"
-          *ngIf="hasUnitNumber">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <textarea
-                matInput
-                placeholder="Address 2"
-                formControlName="address2"></textarea>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                placeholder="City"
-                formControlName="city" />
-              <mat-error
-                *ngIf="addressForm.controls['city'].hasError('required')">
-                City is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="full-width">
-              <mat-select
-                placeholder="State"
-                formControlName="state">
-                <mat-option
-                  *ngFor="let state of states"
-                  [value]="state.abbreviation">
-                  {{ state.name }}
-                </mat-option>
-              </mat-select>
-              <mat-error
-                *ngIf="addressForm.controls['state'].hasError('required')">
-                State is <strong>required</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-form-field class="full-width">
-              <input
-                matInput
-                #postalCode
-                maxlength="5"
-                placeholder="Postal Code"
-                type="number"
-                formControlName="postalCode" />
-              <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <mat-radio-group formControlName="shipping">
-              <mat-radio-button value="free">Free Shipping</mat-radio-button>
-              <mat-radio-button value="priority"
-                >Priority Shipping</mat-radio-button
-              >
-              <mat-radio-button value="nextday"
-                >Next Day Shipping</mat-radio-button
-              >
-            </mat-radio-group>
-          </div>
-        </div>
+        <p class="mat-color-accent">
+          <small
+            ><i
+              >Da dies nur eine Demonstration ist, wird der Zahlungsschritt
+              übersprungen.</i
+            ></small
+          >
+        </p>
       </mat-card-content>
       <mat-card-actions>
         <button
+          [disabled]="!customerForm.valid"
           mat-raised-button
           color="primary"
           type="submit">
-          Submit
+          Weiter
         </button>
       </mat-card-actions>
     </mat-card>
