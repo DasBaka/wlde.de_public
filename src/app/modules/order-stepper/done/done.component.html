@@ -1,6 +1,58 @@
-<h1>Vielen Dank für deine Bestellung!</h1>
-<p>Du hast deine Bestellung aufgegeben und nun sind wir am Zug!</p>
-<p>In spätestens {{ time }} ist dein Essen bei dir.</p>
-<mat-progress-bar
-  mode="determinate"
-  value="40"></mat-progress-bar>
+<mat-sidenav-container
+  class="h-100"
+  *ngIf="router.url != '/order'">
+  <mat-sidenav-content class="no-scrollbar">
+    <!-- class="no-scrollbar" -->
+    <mat-toolbar
+      color="primary"
+      class="d-flex justify-content-between">
+      <span>wir-liefern-dein-essen.de</span>
+      <div>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">account_circle</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-icon-button>
+          <mat-icon class="mat-icon-filled">info</mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <div class="position-relative text-center">
+      <img
+        src="../../../assets/img/cooks-1661131_1920.jpg"
+        class="main-img" />
+      <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
+    </div>
+    <div class="container">
+      <h1>Vielen Dank für deine Bestellung!</h1>
+      <p>Du hast deine Bestellung aufgegeben und nun sind wir am Zug!</p>
+      <p>In spätestens {{ time }}min ist dein Essen bei dir.</p>
+      <div class="position-relative">
+        <mat-progress-bar
+          mode="determinate"
+          [value]="pctTime"></mat-progress-bar>
+        <div
+          class="position-absolute"
+          style="top: -10px; left: calc({{ pctTime }}% - 10px)">
+          <mat-icon class="position-absolute cloud-animation">cloud</mat-icon>
+          <mat-icon class="car-shake">local_shipping</mat-icon>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template *ngIf="router.url == '/order'">
+  <h1>Vielen Dank für deine Bestellung!</h1>
+  <p>Du hast deine Bestellung aufgegeben und nun sind wir am Zug!</p>
+  <p>In spätestens {{ time }} ist dein Essen bei dir.</p>
+  <mat-progress-bar
+    mode="determinate"
+    [value]="pctTime"
+    ><mat-icon>add</mat-icon></mat-progress-bar
+  >
+</ng-template>

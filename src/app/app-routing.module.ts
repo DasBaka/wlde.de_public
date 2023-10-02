@@ -26,7 +26,6 @@ const routes: Routes = [
     title: 'Du bestellst, wir liefern | wlde.de',
     component: DoneComponent,
   },
-
   {
     path: '',
     redirectTo: '',

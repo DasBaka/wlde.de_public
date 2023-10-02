@@ -1,0 +1,116 @@
+.main-img {
+  width: 100%;
+  max-height: 300px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  -o-object-position: calc(center - 20%);
+  object-position: calc(center - 20%);
+}
+
+.mat-toolbar.mat-primary {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.img-text {
+  position: absolute;
+  top: 50%;
+  color: #fafafa;
+}
+
+.car-shake {
+  -webkit-animation: shake 2s ease 0s infinite normal none;
+  animation: shake 2s ease 0s infinite normal none;
+}
+
+@-webkit-keyframes shake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateY(-0.5px);
+  }
+  20%,
+  40%,
+  60% {
+    transform: translateY(0.5px);
+  }
+  80% {
+    transform: translateY(0.45px);
+  }
+  90% {
+    transform: translateY(-0.45px);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    transform: translateY(-0.5px);
+  }
+  20%,
+  40%,
+  60% {
+    transform: translateY(0.5px);
+  }
+  80% {
+    transform: translateY(0.45px);
+  }
+  90% {
+    transform: translateY(-0.45px);
+  }
+}
+
+.cloud-animation {
+  left: 0;
+  transform: scale(0.25);
+  transform-origin: right;
+  -webkit-animation: tuff 1s linear infinite;
+  animation: tuff 1s linear infinite;
+}
+
+@-webkit-keyframes tuff {
+  from {
+    opacity: 1;
+    transform: scale(0.25);
+    transform-origin: right;
+    left: -21px;
+    bottom: 0;
+  }
+  to {
+    opacity: 0;
+    left: -32px;
+    transform: scale(0.1);
+    transform-origin: right;
+    bottom: 100%;
+  }
+}
+
+@keyframes tuff {
+  from {
+    opacity: 1;
+    transform: scale(0.25);
+    transform-origin: right;
+    left: -21px;
+    bottom: 0;
+  }
+  to {
+    opacity: 0;
+    left: -32px;
+    transform: scale(0.1);
+    transform-origin: right bottom;
+    bottom: 100%;
+  }
+}

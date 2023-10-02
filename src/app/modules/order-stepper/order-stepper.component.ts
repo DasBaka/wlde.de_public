@@ -6,6 +6,7 @@ import { CartItem } from '../main/main.component';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { OrderProfile } from 'src/models/interfaces/order-profile';
 import { DocumentReference, addDoc, updateDoc } from 'firebase/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-stepper',
@@ -22,9 +23,12 @@ export class OrderStepperComponent {
   order: CartItem[];
   price: string;
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, private router: Router) {
     this.order = window.history.state.cart;
     this.price = window.history.state.price;
+    if (this.order == null || this.price == null) {
+      this.router.navigate(['']);
+    }
     this.customerData = {
       customer: {
         firstname: null,
