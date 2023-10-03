@@ -6,13 +6,14 @@
     fixedInViewport
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false">
+    [opened]="(isHandset$ | async) === true || cart.length > 0">
     <mat-toolbar class="d-flex justify-content-center">Warenkorb</mat-toolbar>
     <mat-divider class="pb-1"></mat-divider>
     <div class="d-flex flex-column justify-content-between cart overflow-auto">
       <app-cart
         [cart]="cart"
-        (adjust)="calcPrice($event)"></app-cart>
+        (adjustPrice)="calcPrice($event)"
+        (adjustItems)="sumOfItems()"></app-cart>
       <div>
         <mat-divider></mat-divider>
         <mat-card
@@ -34,7 +35,6 @@
               color="primary"
               (click)="toCheckout()">
               <mat-icon>shopping_cart_checkout</mat-icon>
-
               <span class="px-3 mat-h4"><b>Bestellen</b></span>
             </button></mat-card-actions
           >
@@ -50,14 +50,32 @@
         <mat-icon>local_shipping</mat-icon
         ><span>wir-liefern-dein-essen.de</span>
       </div>
-
       <div>
         <button
           type="button"
           mat-icon-button
-          (click)="toggleLogin('250ms', '250ms')">
+          [matMenuTriggerFor]="userMenu">
           <mat-icon class="mat-icon-filled">account_circle</mat-icon>
         </button>
+        <mat-menu #userMenu="matMenu">
+          <button
+            mat-menu-item
+            *ngIf="authService.currentUser === null"
+            (click)="toggleLogin('250ms', '250ms')">
+            Login
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="authService.currentUser !== null">
+            Meine Daten
+          </button>
+          <button
+            mat-menu-item
+            *ngIf="authService.currentUser !== null"
+            (click)="authService.logout()">
+            Logout
+          </button>
+        </mat-menu>
         <button
           type="button"
           mat-icon-button>
@@ -67,7 +85,12 @@
           type="button"
           mat-icon-button
           (click)="drawer.toggle()">
-          <mat-icon class="mat-icon-filled">shopping_cart</mat-icon>
+          <mat-icon
+            class="mat-icon-filled"
+            matBadge="{{ items > 0 ? items : '' }}"
+            matBadgeColor="accent"
+            >shopping_cart</mat-icon
+          >
         </button>
       </div>
     </mat-toolbar>

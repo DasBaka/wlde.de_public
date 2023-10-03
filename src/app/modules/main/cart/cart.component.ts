@@ -8,11 +8,13 @@ import { CartItem } from '../main.component';
 })
 export class CartComponent {
   @Input() cart: CartItem[] = [];
-  @Output() adjust: EventEmitter<CartItem> = new EventEmitter<CartItem>();
+  @Output() adjustPrice: EventEmitter<CartItem> = new EventEmitter<CartItem>();
+  @Output() adjustItems: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   adjustCount(dish: CartItem, add: number) {
     let i = this.cart.indexOf(dish);
     let d = this.cart[i];
+
     d.count += add;
     if (d.count == 0) {
       this.cart.splice(i, 1);
@@ -20,7 +22,8 @@ export class CartComponent {
         localStorage.clear();
       }
     } else {
-      this.adjust.emit(dish);
+      this.adjustPrice.emit(dish);
     }
+    this.adjustItems.emit(true);
   }
 }

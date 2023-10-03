@@ -1,8 +1,6 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
-  Input,
   OnInit,
   ViewChild,
   inject,
@@ -16,13 +14,7 @@ import { CurrencyFormatterService } from 'src/app/core/services/currency-formatt
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { MatTabGroup } from '@angular/material/tabs';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -32,8 +24,10 @@ import { MatTabGroup } from '@angular/material/tabs';
 export class MainComponent implements OnInit {
   private breakpointObserver = inject(BreakpointObserver);
   dataService: FirestoreDataService = inject(FirestoreDataService);
+  authService = inject(AuthService);
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
   cart: CartItem[] = [];
+  items = 0;
   selectedTags = [];
   filteredObservable$!: Observable<any[]>;
 
@@ -106,6 +100,7 @@ export class MainComponent implements OnInit {
       this.cart.push(dish);
     }
     this.calcPrice(dish);
+    this.sumOfItems();
     this.setCartToLS();
   }
 
@@ -122,9 +117,10 @@ export class MainComponent implements OnInit {
       this.cart.forEach((item) => {
         sum += item.count;
       });
-      return sum;
+      this.items = sum;
+    } else {
+      this.items = 0;
     }
-    return;
   }
 
   priceOfItems() {

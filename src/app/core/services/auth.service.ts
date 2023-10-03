@@ -9,6 +9,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
 } from '@angular/fire/auth';
 import { Observable, Subscription } from 'rxjs';
 
@@ -68,5 +69,9 @@ export class AuthService implements OnDestroy {
       .catch((e) => {
         console.log(e.code, e.message);
       });
+  }
+
+  logout() {
+    signOut(this.auth);
   }
 }
