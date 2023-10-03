@@ -1,12 +1,13 @@
 import {
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
   inject,
 } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
@@ -15,23 +16,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   private breakpointObserver = inject(BreakpointObserver);
   dataService: FirestoreDataService = inject(FirestoreDataService);
   authService = inject(AuthService);
+  userSub!: Subscription;
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
   cart: CartItem[] = [];
   items = 0;
-  selectedTags = [];
-  filteredObservable$!: Observable<any[]>;
-
-  @ViewChild('tagWrapper') tagDiv!: ElementRef;
+  currentUser: User | null = null;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -41,11 +41,14 @@ export class MainComponent implements OnInit {
     );
 
   constructor(
-    private router: Router,
+    public router: Router,
     private route: ActivatedRoute,
     public dialog: MatDialog
   ) {
     this.checkLSForOrder();
+    this.userSub = this.authService.user$.subscribe((user: User | null) => {
+      this.currentUser = user;
+    });
   }
 
   ngOnInit(): void {
@@ -55,6 +58,10 @@ export class MainComponent implements OnInit {
     if (localStorage.getItem('cart') !== null) {
       this.cart = this.getCartFromLS();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userSub.unsubscribe();
   }
 
   checkLSForOrder() {
@@ -77,50 +84,11 @@ export class MainComponent implements OnInit {
     }
   }
 
-  scrolled() {
-    if (this.tagDiv) {
-      this.tagDiv.nativeElement.scrollLeft;
-    }
-  }
-
-  scrollTags(move: number) {
-    this.tagDiv.nativeElement.scrollLeft =
-      this.tagDiv.nativeElement.scrollLeft +
-      0.2 *
-        move *
-        (this.tagDiv.nativeElement.scrollWidth -
-          this.tagDiv.nativeElement.offsetWidth);
-  }
-
-  addToCart(dish: CartItem) {
-    if (this.cart.includes(dish)) {
-      this.cart[this.cart.indexOf(dish)].count += 1;
-    } else {
-      dish.count = 1;
-      this.cart.push(dish);
-    }
-    this.calcPrice(dish);
-    this.sumOfItems();
-    this.setCartToLS();
-  }
-
   calcPrice(dish: CartItem) {
     let num = this.currencyService.num(dish.cost ?? '');
     let price = num * dish.count;
     this.cart[this.cart.indexOf(dish)].price =
       this.currencyService.price(price);
-  }
-
-  sumOfItems() {
-    if (this.cart.length > 0) {
-      let sum: number = 0;
-      this.cart.forEach((item) => {
-        sum += item.count;
-      });
-      this.items = sum;
-    } else {
-      this.items = 0;
-    }
   }
 
   priceOfItems() {
@@ -134,14 +102,17 @@ export class MainComponent implements OnInit {
     return;
   }
 
-  selection(tags: []) {
-    let a: boolean[] = [];
-    this.selectedTags.forEach((tag) => {
-      a.push(tags.includes(tag));
-    });
-    return a.some((v) => {
-      return v;
-    });
+  sumOfItems() {
+    if (this.cart.length > 0) {
+      let sum: number = 0;
+      this.cart.forEach((item) => {
+        sum += item.count;
+      });
+      this.items = sum;
+    } else {
+      this.items = 0;
+    }
+    this.setCartToLS();
   }
 
   setCartToLS() {
@@ -152,6 +123,7 @@ export class MainComponent implements OnInit {
   getCartFromLS() {
     return JSON.parse(localStorage.getItem('cart') ?? '');
   }
+
   getTimeFromLS() {
     return parseInt(localStorage.getItem('time') ?? '');
   }

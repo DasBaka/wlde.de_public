@@ -11,15 +11,14 @@ import {
   onAuthStateChanged,
   signOut,
 } from '@angular/fire/auth';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnDestroy {
+export class AuthService {
   auth!: Auth;
   user$!: Observable<User | null>;
-  userSub!: Subscription;
   emailProvider = new EmailAuthProvider();
   userid: string | null = null;
   currentUser: User | null = null;
@@ -29,9 +28,6 @@ export class AuthService implements OnDestroy {
     if (app) {
       this.auth = getAuth(app);
       this.user$ = user(this.auth);
-      this.userSub = this.user$.subscribe((aUser: User | null) => {
-        this.currentUser = aUser;
-      });
     }
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
@@ -40,10 +36,6 @@ export class AuthService implements OnDestroy {
         this.userid = null;
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.userSub.unsubscribe();
   }
 
   findApp() {

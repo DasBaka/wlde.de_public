@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { User, user } from '@angular/fire/auth';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
-import { Restaurant } from 'src/models/classes/restaurant.class';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
-import { RestaurantProfile } from 'src/models/interfaces/restaurant-profile.interface';
 
 @Component({
   selector: 'app-address',
@@ -16,6 +15,7 @@ export class AddressComponent {
   dataService: FirestoreDataService = inject(FirestoreDataService);
   customer!: CustomerProfile;
   dataToEdit = new Customer();
+  @Input() userData: User | null = null;
 
   @Output() controlAddress = new EventEmitter<FormGroup>();
 
@@ -70,7 +70,7 @@ export class AddressComponent {
   contactGroup(data: Customer) {
     return this.fb.group({
       mail: [
-        data.contact.mail,
+        this.userData?.email,
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -88,5 +88,9 @@ export class AddressComponent {
     if (this.customerForm.valid) {
       this.controlAddress.emit(this.customerForm);
     }
+  }
+
+  log() {
+    console.log(this.userData);
   }
 }

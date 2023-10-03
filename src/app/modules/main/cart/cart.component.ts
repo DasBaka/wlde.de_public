@@ -14,7 +14,6 @@ export class CartComponent {
   adjustCount(dish: CartItem, add: number) {
     let i = this.cart.indexOf(dish);
     let d = this.cart[i];
-
     d.count += add;
     if (d.count == 0) {
       this.cart.splice(i, 1);

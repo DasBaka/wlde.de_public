@@ -1,60 +1,4 @@
 <div class="overflow-auto">
-  <div
-    class="d-flex flex-column justify-content-center align-items-center overflow-auto">
-    <mat-card
-      appearance="outlined"
-      class="py-2 px-5 d-flex">
-      <mat-card-header>
-        <mat-card-title-group>
-          <mat-card-title class="text-center">
-            <h3>Logge dich ein, um dein Essen schneller zu erhalten!</h3>
-            <br />
-            <h3>Oder registriere dich für das nächste Mal!</h3></mat-card-title
-          >
-        </mat-card-title-group>
-        <mat-card-title-group>
-          <mat-card-content>
-            <mat-tab-group
-              animationDuration="0"
-              fitInkBarToContent
-              mat-stretch-tabs="false"
-              mat-align-tabs="center"
-              dynamicHeight="true">
-              <mat-tab label="Login">
-                <div
-                  class="d-flex flex-column align-items-center container p-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Emailadresse</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Passwort</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-              </mat-tab>
-              <mat-tab label="Registrieren">
-                <div
-                  class="d-flex flex-column align-items-center container p-2">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Emailadresse</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Passwort</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Passwort wiederholen</mat-label>
-                    <input matInput />
-                  </mat-form-field>
-                </div>
-              </mat-tab>
-            </mat-tab-group> </mat-card-content
-        ></mat-card-title-group>
-      </mat-card-header>
-    </mat-card>
-  </div>
   <form
     [formGroup]="customerForm"
     novalidate
@@ -74,7 +18,8 @@
                 <input
                   matInput
                   placeholder="Customer's firstname"
-                  formControlName="firstname" />
+                  formControlName="firstname"
+                  (input)="log()" />
                 <mat-error
                   *ngIf="
                     customerForm.get('customer.firstname')?.hasError('required')

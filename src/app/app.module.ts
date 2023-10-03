@@ -37,6 +37,7 @@ import { CartComponent } from './modules/main/cart/cart.component';
 import { LoginComponent } from './modules/main/login/login.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DishesComponent } from './modules/main/dishes/dishes.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     DoneComponent,
     CartComponent,
     LoginComponent,
+    DishesComponent,
   ],
   imports: [
     BrowserModule,

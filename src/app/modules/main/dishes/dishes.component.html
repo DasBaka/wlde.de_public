@@ -1,0 +1,87 @@
+<img
+  src="../../../assets/img/pexels-destiawan-nur-agustra-1034940.jpg"
+  class="main-img" />
+<div
+  class="container d-flex flex-column flex-grow-1 gap-2 mb-5 position-relative">
+  <div>
+    <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
+    <div
+      class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper"></div>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
+      cupiditate blanditiis fugiat mollitia repellat, incidunt velit numquam
+      praesentium, facilis repellendus doloremque voluptatem cum quasi, sapiente
+      asperiores nostrum necessitatibus fugit ipsum.
+    </p>
+  </div>
+  <div class="d-flex">
+    <div class="tag-btn-wrapper">
+      <button
+        mat-icon-button
+        class="scroll-btn left-btn"
+        [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 8 : false"
+        color="accent"
+        (click)="scrollTags(-1)">
+        <mat-icon>arrow_circle_left</mat-icon>
+      </button>
+    </div>
+    <mat-chip-listbox
+      class="overflow-auto"
+      multiple="true"
+      #tagList>
+      <div
+        class="tag-wrapper gap-3 mt-2 px-3 snaps-inline"
+        (scroll)="scrolled()"
+        #tagWrapper>
+        <mat-chip-option
+          *ngFor="let tag of dataService.tagColl$ | async"
+          (click)="selectedTags = tagList.value"
+          ><span
+            class="px-3 py-2"
+            style="font-size: 1.075rem"
+            >{{ tag.tag }}</span
+          ></mat-chip-option
+        >
+      </div>
+    </mat-chip-listbox>
+    <div class="tag-btn-wrapper">
+      <button
+        mat-icon-button
+        class="scroll-btn right-btn"
+        [class.show]="
+          tagDiv
+            ? tagDiv.nativeElement.scrollLeft <
+              tagDiv.nativeElement.scrollWidth -
+                tagDiv.nativeElement.offsetWidth
+            : false
+        "
+        color="accent"
+        (click)="scrollTags(1)">
+        <mat-icon>arrow_circle_right</mat-icon>
+      </button>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card
+    *ngFor="let dish of dataService.dishColl$ | async"
+    [class.d-none]="!selection(dish.tags) && selectedTags.length > 0">
+    <mat-card-header class="w-100">
+      <mat-card-title-group>
+        <mat-card-title>{{ dish.name }}</mat-card-title>
+        <mat-card-subtitle>{{ dish.text }}</mat-card-subtitle>
+      </mat-card-title-group>
+      <mat-card-title-group class="d-flex justify-content-end">
+        <br />
+        <mat-card-title>{{ dish.cost }}</mat-card-title>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-actions class="d-flex justify-content-end">
+      <button
+        mat-icon-button
+        color="primary"
+        (click)="addToCart(dish)">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

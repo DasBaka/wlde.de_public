@@ -1,52 +1,34 @@
-<mat-sidenav-container class="h-100">
-  <mat-sidenav-content class="no-scrollbar">
-    <!-- class="no-scrollbar" -->
-    <mat-toolbar
-      color="primary"
-      class="d-flex justify-content-between">
-      <span>wir-liefern-dein-essen.de</span>
-      <div>
-        <button
-          type="button"
-          mat-icon-button>
-          <mat-icon class="mat-icon-filled">account_circle</mat-icon>
-        </button>
-        <button
-          type="button"
-          mat-icon-button>
-          <mat-icon class="mat-icon-filled">info</mat-icon>
-        </button>
-      </div>
-    </mat-toolbar>
-    <!-- Add Content Here -->
-    <div class="position-relative text-center">
-      <img
-        src="../../../assets/img/cooks-1661131_1920.jpg"
-        class="main-img" />
-      <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
-    </div>
-    <div class="container">
-      <mat-stepper
-        [disableRipple]="true"
-        linear
-        #stepper>
-        <mat-step [stepControl]="controlAddress">
-          <ng-template matStepLabel>Wohin soll es gehen?</ng-template>
-          <app-address (controlAddress)="nextStep($event)"></app-address>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Ein letzter Blick darüber...</ng-template>
-          <app-checkout
-            [customer]="customerData"
-            [order]="order"
-            [price]="price"
-            (onOrder)="placeOrder()"></app-checkout>
-        </mat-step>
-        <mat-step>
-          <ng-template matStepLabel>Dein Essen ist unterwegs!</ng-template>
-          <app-done></app-done>
-        </mat-step>
-      </mat-stepper>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<!-- Add Content Here -->
+<div class="position-relative text-center">
+  <img
+    src="../../../assets/img/cooks-1661131_1920.jpg"
+    class="main-img" />
+  <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
+</div>
+<div class="container">
+  <mat-stepper
+    [disableRipple]="true"
+    linear
+    #stepper>
+    <mat-step [stepControl]="controlAddress">
+      <ng-template matStepLabel>Wohin soll es gehen?</ng-template>
+      <app-address
+        (controlAddress)="nextStep($event)"
+        [userData]="currentUser"></app-address>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Ein letzter Blick darüber...</ng-template>
+      <app-checkout
+        [customer]="customerData"
+        [order]="order"
+        [price]="price"
+        (onOrder)="placeOrder()"></app-checkout>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Dein Essen ist unterwegs!</ng-template>
+      <ng-template matStepContent>
+        <app-done></app-done>
+      </ng-template>
+    </mat-step>
+  </mat-stepper>
+</div>

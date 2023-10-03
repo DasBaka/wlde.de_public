@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, Input, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
@@ -7,6 +7,8 @@ import { FirestoreDataService } from 'src/app/core/services/firestore-data.servi
 import { OrderProfile } from 'src/models/interfaces/order-profile';
 import { DocumentReference, addDoc, updateDoc } from 'firebase/firestore';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-order-stepper',
@@ -15,24 +17,36 @@ import { Router } from '@angular/router';
 })
 export class OrderStepperComponent {
   dataService: FirestoreDataService = inject(FirestoreDataService);
+  authService = inject(AuthService);
   controlAddress = this._formBuilder.group({});
   controlCheck = this._formBuilder.group({});
   @ViewChild('stepper') stepper!: MatStepper;
+  @Input() currentUser: User | null = null;
 
-  customerData: CustomerProfile;
+  customerData!: CustomerProfile;
   order: CartItem[];
   price: string;
 
   constructor(private _formBuilder: FormBuilder, private router: Router) {
     this.order = window.history.state.cart;
     this.price = window.history.state.price;
+    this.navigate();
+    this.customerDataSet();
+  }
+
+  navigate() {
     if (this.order == null || this.price == null || localStorage.length === 0) {
       this.router.navigate(['']);
+      return;
     }
     if (localStorage.getItem('orderId') != null) {
       let ls = localStorage.getItem('orderId');
       this.router.navigate(['your-order/' + ls]);
+      return;
     }
+  }
+
+  customerDataSet() {
     this.customerData = {
       customer: {
         firstname: null,
@@ -46,7 +60,7 @@ export class OrderStepperComponent {
         street: null,
       },
       contact: {
-        mail: null,
+        mail: this.currentUser?.email ?? null,
         phone: null,
       },
     };
