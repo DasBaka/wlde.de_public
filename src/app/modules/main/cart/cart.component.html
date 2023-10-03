@@ -1,0 +1,31 @@
+<div class="overflow-auto d-flex flex-column-reverse gap-1">
+  <div
+    *ngFor="let item of cart; index as i"
+    class="cart-item-wrapper">
+    <mat-card appearance="outlined">
+      <mat-card-header class="w-100">
+        <mat-card-title-group>
+          <mat-card-title>{{ item.count }}x {{ item.name }}</mat-card-title>
+        </mat-card-title-group>
+        <mat-card-title-group class="d-flex justify-content-end">
+          <mat-card-title>{{ item.price }}</mat-card-title>
+        </mat-card-title-group>
+      </mat-card-header>
+      <mat-card-actions class="d-flex justify-content-end">
+        <button
+          mat-icon-button
+          color="accent"
+          (click)="adjustCount(item, -1)">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          color="accent"
+          (click)="adjustCount(item, 1)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-divider *ngIf="i != 0"></mat-divider>
+  </div>
+</div>

@@ -33,6 +33,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { AddressComponent } from './modules/order-stepper/address/address.component';
 import { DoneComponent } from './modules/order-stepper/done/done.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CartComponent } from './modules/main/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     OrderStepperComponent,
     AddressComponent,
     DoneComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

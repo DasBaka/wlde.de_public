@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+$takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
+
 .sidenav {
   width: 360px;
 
@@ -97,4 +100,11 @@
       display: none;
     }
   }
+}
+
+.register-wrapper > .mat-mdc-card-outlined {
+  border-color: mat.get-color-from-palette(
+    $takeaway-clone-primary,
+    600
+  ) !important;
 }

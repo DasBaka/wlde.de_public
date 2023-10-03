@@ -26,8 +26,12 @@ export class OrderStepperComponent {
   constructor(private _formBuilder: FormBuilder, private router: Router) {
     this.order = window.history.state.cart;
     this.price = window.history.state.price;
-    if (this.order == null || this.price == null) {
+    if (this.order == null || this.price == null || localStorage.length === 0) {
       this.router.navigate(['']);
+    }
+    if (localStorage.getItem('orderId') != null) {
+      let ls = localStorage.getItem('orderId');
+      this.router.navigate(['your-order/' + ls]);
     }
     this.customerData = {
       customer: {

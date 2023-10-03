@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild,
   inject,
@@ -57,11 +58,15 @@ export class MainComponent implements OnInit {
         localStorage.clear();
         return;
       } else {
-        if (localStorage.getItem('orderId')) {
-          let ls = localStorage.getItem('orderId');
-          this.router.navigate(['your-order/' + ls]);
-        }
+        this.navigateToOrder();
       }
+    }
+  }
+
+  navigateToOrder() {
+    if (localStorage.getItem('orderId')) {
+      let ls = localStorage.getItem('orderId');
+      this.router.navigate(['your-order/' + ls]);
     }
   }
 
@@ -89,20 +94,6 @@ export class MainComponent implements OnInit {
     }
     this.calcPrice(dish);
     this.setCartToLS();
-  }
-
-  adjustCount(dish: CartItem, add: number) {
-    let i = this.cart.indexOf(dish);
-    let d = this.cart[i];
-    d.count += add;
-    if (d.count == 0) {
-      this.cart.splice(i, 1);
-      if (this.cart.length == 0) {
-        localStorage.clear();
-      }
-    } else {
-      this.calcPrice(dish);
-    }
   }
 
   calcPrice(dish: CartItem) {

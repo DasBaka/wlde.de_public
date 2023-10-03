@@ -18,12 +18,12 @@ const routes: Routes = [
   },
   {
     path: 'order',
-    title: 'Du bestellst, wir liefern | wlde.de',
+    title: 'Bestellung | wlde.de',
     component: OrderStepperComponent,
   },
   {
     path: 'your-order/:id',
-    title: 'Du bestellst, wir liefern | wlde.de',
+    title: 'Deine Bestellung | wlde.de',
     component: DoneComponent,
   },
   {
