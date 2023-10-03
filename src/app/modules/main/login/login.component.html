@@ -1,0 +1,102 @@
+<div mat-dialog-content>
+  <mat-card
+    appearance="outlined"
+    class="py-2 px-5 d-flex">
+    <mat-card-header>
+      <mat-card-title-group>
+        <mat-card-title class="text-center">
+          <h3>Logge dich ein, um dein Essen schneller zu erhalten!</h3>
+          <br />
+          <h3>Oder registriere dich für das nächste Mal!</h3></mat-card-title
+        >
+      </mat-card-title-group>
+      <mat-card-title-group>
+        <mat-card-content>
+          <mat-tab-group
+            animationDuration="0"
+            fitInkBarToContent
+            mat-stretch-tabs="false"
+            mat-align-tabs="center"
+            dynamicHeight="true"
+            #tabGroup>
+            <mat-tab label="Login">
+              <form
+                [formGroup]="loginForm"
+                novalidate
+                (ngSubmit)="onLogin()">
+                <div
+                  class="d-flex flex-column align-items-center container p-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Emailadresse</mat-label>
+                    <input
+                      matInput
+                      formControlName="mail" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Passwort</mat-label>
+                    <input
+                      matInput
+                      formControlName="pw" />
+                  </mat-form-field>
+                </div>
+                <mat-card-actions>
+                  <button
+                    [disabled]="
+                      !loginForm.valid || (loading && loginForm.valid)
+                    "
+                    mat-raised-button
+                    color="primary"
+                    type="submit">
+                    <mat-spinner
+                      *ngIf="loading"
+                      diameter="36"
+                      #spinner1></mat-spinner>
+                    <span *ngIf="!loading">Login</span>
+                  </button>
+                </mat-card-actions>
+              </form>
+            </mat-tab>
+            <mat-tab label="Registrieren">
+              <form
+                [formGroup]="regForm"
+                novalidate
+                (ngSubmit)="onRegister()">
+                <div
+                  class="d-flex flex-column align-items-center container p-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Emailadresse</mat-label>
+                    <input
+                      matInput
+                      formControlName="mail" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Passwort</mat-label>
+                    <input
+                      matInput
+                      formControlName="pw" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Passwort wiederholen</mat-label>
+                    <input
+                      matInput
+                      formControlName="check" />
+                  </mat-form-field>
+                </div>
+                <mat-card-actions>
+                  <button
+                    [disabled]="!regForm.valid"
+                    mat-raised-button
+                    color="primary"
+                    type="submit"
+                    (click)="onRegister()">
+                    Login
+                  </button>
+                </mat-card-actions>
+              </form>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card-title-group>
+    </mat-card-header>
+  </mat-card>
+</div>

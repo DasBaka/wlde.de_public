@@ -14,6 +14,15 @@ import { FirestoreDataService } from 'src/app/core/services/firestore-data.servi
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
 import { CurrencyFormatterService } from 'src/app/core/services/currency-formatter.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from './login/login.component';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-main',
@@ -37,7 +46,11 @@ export class MainComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialog: MatDialog
+  ) {
     this.checkLSForOrder();
   }
 
@@ -151,6 +164,13 @@ export class MainComponent implements OnInit {
     this.router.navigate(['order'], {
       relativeTo: this.route,
       state: { cart: this.cart, price: this.priceOfItems() },
+    });
+  }
+
+  toggleLogin(enterAnimationDuration: string, exitAnimationDuration: string) {
+    this.dialog.open(LoginComponent, {
+      enterAnimationDuration,
+      exitAnimationDuration,
     });
   }
 }

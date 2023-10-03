@@ -34,6 +34,9 @@ import { AddressComponent } from './modules/order-stepper/address/address.compon
 import { DoneComponent } from './modules/order-stepper/done/done.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CartComponent } from './modules/main/cart/cart.component';
+import { LoginComponent } from './modules/main/login/login.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,7 @@ import { CartComponent } from './modules/main/cart/cart.component';
     AddressComponent,
     DoneComponent,
     CartComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,12 +73,12 @@ import { CartComponent } from './modules/main/cart/cart.component';
     MatBadgeModule,
     MatStepperModule,
     MatProgressBarModule,
+    MatDialogModule,
+    MatProgressSpinnerModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
-    provideAuth(() => getAuth()),
-    provideAuth(() => getAuth(getApp('clone'))),
   ],
   providers: [],
   bootstrap: [AppComponent],

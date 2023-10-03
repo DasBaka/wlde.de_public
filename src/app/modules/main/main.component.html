@@ -46,11 +46,16 @@
     <mat-toolbar
       color="primary"
       class="d-flex justify-content-between">
-      <span>wir-liefern-dein-essen.de</span>
+      <div class="d-flex align-items-center gap-2">
+        <mat-icon>local_shipping</mat-icon
+        ><span>wir-liefern-dein-essen.de</span>
+      </div>
+
       <div>
         <button
           type="button"
-          mat-icon-button>
+          mat-icon-button
+          (click)="toggleLogin('250ms', '250ms')">
           <mat-icon class="mat-icon-filled">account_circle</mat-icon>
         </button>
         <button
@@ -75,63 +80,7 @@
       <div>
         <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
         <div
-          class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper">
-          <mat-card
-            appearance="outlined"
-            class="py-2 px-5 d-flex">
-            <mat-card-header>
-              <mat-card-title-group>
-                <mat-card-title class="text-center">
-                  <h3>Logge dich ein, um dein Essen schneller zu erhalten!</h3>
-                  <br />
-                  <h3>
-                    Oder registriere dich für das nächste Mal!
-                  </h3></mat-card-title
-                >
-              </mat-card-title-group>
-              <mat-card-title-group>
-                <mat-card-content>
-                  <mat-tab-group
-                    animationDuration="0"
-                    fitInkBarToContent
-                    mat-stretch-tabs="false"
-                    mat-align-tabs="center"
-                    dynamicHeight="true">
-                    <mat-tab label="Login">
-                      <div
-                        class="d-flex flex-column align-items-center container p-2">
-                        <mat-form-field appearance="outline">
-                          <mat-label>Emailadresse</mat-label>
-                          <input matInput />
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                          <mat-label>Passwort</mat-label>
-                          <input matInput />
-                        </mat-form-field>
-                      </div>
-                    </mat-tab>
-                    <mat-tab label="Registrieren">
-                      <div
-                        class="d-flex flex-column align-items-center container p-2">
-                        <mat-form-field appearance="outline">
-                          <mat-label>Emailadresse</mat-label>
-                          <input matInput />
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                          <mat-label>Passwort</mat-label>
-                          <input matInput />
-                        </mat-form-field>
-                        <mat-form-field appearance="outline">
-                          <mat-label>Passwort wiederholen</mat-label>
-                          <input matInput />
-                        </mat-form-field>
-                      </div>
-                    </mat-tab>
-                  </mat-tab-group> </mat-card-content
-              ></mat-card-title-group>
-            </mat-card-header>
-          </mat-card>
-        </div>
+          class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper"></div>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
           cupiditate blanditiis fugiat mollitia repellat, incidunt velit numquam
