@@ -42,3 +42,13 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
     600
   ) !important;
 }
+
+.hover-title {
+  text-decoration: none;
+  transition: scale 0.125s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    scale: 1.025;
+    transition: scale 0.125s ease-in-out;
+  }
+}

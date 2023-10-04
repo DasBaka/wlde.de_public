@@ -1,4 +1,12 @@
-import { Component, Input, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
@@ -15,14 +23,13 @@ import { User } from '@angular/fire/auth';
   templateUrl: './order-stepper.component.html',
   styleUrls: ['./order-stepper.component.scss'],
 })
-export class OrderStepperComponent {
+export class OrderStepperComponent implements OnInit {
   dataService: FirestoreDataService = inject(FirestoreDataService);
-  authService = inject(AuthService);
   controlAddress = this._formBuilder.group({});
   controlCheck = this._formBuilder.group({});
   @ViewChild('stepper') stepper!: MatStepper;
-  @Input() currentUser: User | null = null;
 
+  @Input() loggedInUser!: any;
   customerData!: CustomerProfile;
   order: CartItem[];
   price: string;
@@ -31,8 +38,9 @@ export class OrderStepperComponent {
     this.order = window.history.state.cart;
     this.price = window.history.state.price;
     this.navigate();
-    this.customerDataSet();
   }
+
+  ngOnInit(): void {}
 
   navigate() {
     if (this.order == null || this.price == null || localStorage.length === 0) {
@@ -44,26 +52,6 @@ export class OrderStepperComponent {
       this.router.navigate(['your-order/' + ls]);
       return;
     }
-  }
-
-  customerDataSet() {
-    this.customerData = {
-      customer: {
-        firstname: null,
-        lastname: null,
-        company: null,
-      },
-      address: {
-        city: null,
-        house: null,
-        postalCode: null,
-        street: null,
-      },
-      contact: {
-        mail: this.currentUser?.email ?? null,
-        phone: null,
-      },
-    };
   }
 
   nextStep(fg: FormGroup) {

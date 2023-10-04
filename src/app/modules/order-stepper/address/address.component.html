@@ -18,8 +18,7 @@
                 <input
                   matInput
                   placeholder="Customer's firstname"
-                  formControlName="firstname"
-                  (input)="log()" />
+                  formControlName="firstname" />
                 <mat-error
                   *ngIf="
                     customerForm.get('customer.firstname')?.hasError('required')

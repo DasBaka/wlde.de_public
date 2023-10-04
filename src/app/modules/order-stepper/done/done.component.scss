@@ -20,6 +20,16 @@
   color: #fafafa;
 }
 
+.hover-title {
+  text-decoration: none;
+  transition: scale 0.125s ease-in-out;
+  &:hover {
+    cursor: pointer;
+    scale: 1.025;
+    transition: scale 0.125s ease-in-out;
+  }
+}
+
 .car-shake {
   -webkit-animation: shake 2s ease 0s infinite normal none;
   animation: shake 2s ease 0s infinite normal none;

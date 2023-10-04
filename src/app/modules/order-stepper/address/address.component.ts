@@ -1,7 +1,17 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { User, user } from '@angular/fire/auth';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
@@ -11,24 +21,29 @@ import { CustomerProfile } from 'src/models/interfaces/customer-profile';
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.scss'],
 })
-export class AddressComponent {
+export class AddressComponent implements OnChanges {
   dataService: FirestoreDataService = inject(FirestoreDataService);
-  customer!: CustomerProfile;
   dataToEdit = new Customer();
-  @Input() userData: User | null = null;
-
+  @Input() loggedInUser!: CustomerProfile & { id: string };
   @Output() controlAddress = new EventEmitter<FormGroup>();
-
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
 
   constructor() {
+    if (this.loggedInUser) {
+      this.dataToEdit = new Customer(this.loggedInUser);
+    }
     this.initForm();
   }
 
-  async ngAfterViewInit(): Promise<void> {
-    await this.getEditable();
-    this.initForm();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      !changes['loggedInUser'].isFirstChange() ||
+      changes['loggedInUser'].currentValue !== undefined
+    ) {
+      this.dataToEdit = this.loggedInUser;
+      this.initForm();
+    }
   }
 
   initForm() {
@@ -37,14 +52,6 @@ export class AddressComponent {
       address: this.addressGroup(this.dataToEdit),
       contact: this.contactGroup(this.dataToEdit),
     });
-  }
-
-  async getEditable() {
-    /* this.dataToEdit = new Customer(
-      (await this.dataService.getDocData(
-        'restaurant/restaurant-data'
-      )) as RestaurantProfile
-    ); */
   }
 
   customerGroup(data: Customer) {
@@ -70,7 +77,7 @@ export class AddressComponent {
   contactGroup(data: Customer) {
     return this.fb.group({
       mail: [
-        this.userData?.email,
+        data.contact.mail,
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -88,9 +95,5 @@ export class AddressComponent {
     if (this.customerForm.valid) {
       this.controlAddress.emit(this.customerForm);
     }
-  }
-
-  log() {
-    console.log(this.userData);
   }
 }

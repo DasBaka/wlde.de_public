@@ -1,12 +1,17 @@
 <mat-sidenav-container
   class="h-100"
-  *ngIf="router.url != '/order'">
+  *ngIf="router.url != '/your-order'">
   <mat-sidenav-content class="no-scrollbar">
     <!-- class="no-scrollbar" -->
     <mat-toolbar
       color="primary"
       class="d-flex justify-content-between">
-      <span>wir-liefern-dein-essen.de</span>
+      <a
+        class="d-flex align-items-center gap-2 hover-title"
+        [routerLink]="['/']">
+        <mat-icon>local_shipping</mat-icon
+        ><span>wir-liefern-dein-essen.de</span>
+      </a>
       <div>
         <button
           type="button"
@@ -23,15 +28,18 @@
     <!-- Add Content Here -->
     <div class="position-relative text-center">
       <img
-        src="../../../assets/img/cooks-1661131_1920.jpg"
+        src="../../../assets/img/fast-food-6974507_1280.jpg"
         class="main-img" />
-      <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
     </div>
-    <div class="container">
-      <h1>Vielen Dank für deine Bestellung!</h1>
-      <p>Du hast deine Bestellung aufgegeben und nun sind wir am Zug!</p>
-      <p>In spätestens {{ time }}min ist dein Essen bei dir.</p>
-      <div class="position-relative">
+    <div class="container text-center">
+      <h1 class="my-4">Vielen Dank für deine Bestellung!</h1>
+      <p class="my-4">
+        Du hast deine Bestellung aufgegeben und nun sind wir am Zug!
+      </p>
+      <p class="mt-4 mb-5">
+        In spätestens {{ time }}min ist dein Essen bei dir.
+      </p>
+      <div class="position-relative mt-4">
         <mat-progress-bar
           mode="determinate"
           [value]="pctTime"></mat-progress-bar>
@@ -46,7 +54,7 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<ng-template *ngIf="router.url == '/order'">
+<ng-template *ngIf="router.url == '/your-order/:id'">
   <h1>Vielen Dank für deine Bestellung!</h1>
   <p>Du hast deine Bestellung aufgegeben und nun sind wir am Zug!</p>
   <p>In spätestens {{ time }} ist dein Essen bei dir.</p>

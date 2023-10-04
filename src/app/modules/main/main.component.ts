@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -17,6 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from '@angular/fire/auth';
+import { CustomerProfile } from 'src/models/interfaces/customer-profile';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-main',
@@ -31,7 +26,9 @@ export class MainComponent implements OnInit, OnDestroy {
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
   cart: CartItem[] = [];
   items = 0;
-  currentUser: User | null = null;
+  currentUser!: CustomerProfile & { id: string };
+  private user!: User | null;
+  params!: { [key: string]: any };
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -41,13 +38,17 @@ export class MainComponent implements OnInit, OnDestroy {
     );
 
   constructor(
-    public router: Router,
-    private route: ActivatedRoute,
-    public dialog: MatDialog
+    private router: Router,
+    public route: ActivatedRoute,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {
     this.checkLSForOrder();
     this.userSub = this.authService.user$.subscribe((user: User | null) => {
-      this.currentUser = user;
+      this.user = user;
+    });
+    this.route.queryParams.subscribe((params) => {
+      this.params = params;
     });
   }
 
@@ -129,17 +130,37 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   toCheckout() {
-    this.router.navigate(['order'], {
+    this.router.navigate([], {
       relativeTo: this.route,
+      queryParams: { page: 'order' },
       state: { cart: this.cart, price: this.priceOfItems() },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false,
     });
   }
 
   toggleLogin(enterAnimationDuration: string, exitAnimationDuration: string) {
-    this.dialog.open(LoginComponent, {
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+    this.dialog
+      .open(LoginComponent, {
+        enterAnimationDuration,
+        exitAnimationDuration,
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        this.currentUser = result;
+        this._snackBar.open(this.welcomMessage(), undefined, {
+          duration: 2500,
+        });
+      });
+  }
+
+  welcomMessage() {
+    let c = this.currentUser.customer;
+    return (
+      'Willkommen zurück' +
+      (c.firstname !== null ? c.firstname + ' ' : '') +
+      (c.lastname !== null ? c.lastname + '!' : '!')
+    );
   }
 }
 

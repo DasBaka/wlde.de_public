@@ -7,7 +7,8 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="
-      ((isHandset$ | async) === true || cart.length > 0) && router.url == '/'
+      ((isHandset$ | async) === true || cart.length > 0) &&
+      params['page'] === undefined
     ">
     <mat-toolbar class="d-flex justify-content-center">Warenkorb</mat-toolbar>
     <mat-divider class="pb-1"></mat-divider>
@@ -48,10 +49,12 @@
     <mat-toolbar
       color="primary"
       class="d-flex justify-content-between">
-      <div class="d-flex align-items-center gap-2">
+      <a
+        class="d-flex align-items-center gap-2 hover-title"
+        [routerLink]="['/']">
         <mat-icon>local_shipping</mat-icon
         ><span>wir-liefern-dein-essen.de</span>
-      </div>
+      </a>
       <div>
         <button
           type="button"
@@ -84,7 +87,7 @@
           <mat-icon class="mat-icon-filled">info</mat-icon>
         </button>
         <button
-          *ngIf="router.url == '/'"
+          *ngIf="params['page'] === undefined"
           type="button"
           mat-icon-button
           (click)="drawer.toggle()">
@@ -99,13 +102,13 @@
     </mat-toolbar>
     <!-- Add Content Here -->
     <app-dishes
-      *ngIf="router.url == '/'"
+      *ngIf="params['page'] === undefined"
       [dataService]="dataService"
       (calc)="calcPrice($event); sumOfItems()"
       [cart]="cart"></app-dishes>
     <app-order-stepper
-      *ngIf="router.url == '/order'"
-      [currentUser]="currentUser"></app-order-stepper>
+      *ngIf="params['page'] == 'order'"
+      [loggedInUser]="currentUser"></app-order-stepper>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

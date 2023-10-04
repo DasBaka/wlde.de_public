@@ -14,15 +14,17 @@
       <ng-template matStepLabel>Wohin soll es gehen?</ng-template>
       <app-address
         (controlAddress)="nextStep($event)"
-        [userData]="currentUser"></app-address>
+        [loggedInUser]="loggedInUser"></app-address>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Ein letzter Blick darüber...</ng-template>
-      <app-checkout
-        [customer]="customerData"
-        [order]="order"
-        [price]="price"
-        (onOrder)="placeOrder()"></app-checkout>
+      <ng-template matStepContent>
+        <app-checkout
+          [customer]="customerData"
+          [order]="order"
+          [price]="price"
+          (onOrder)="placeOrder()"></app-checkout>
+      </ng-template>
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Dein Essen ist unterwegs!</ng-template>
