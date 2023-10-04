@@ -1,4 +1,9 @@
 <div class="overflow-auto d-flex flex-column-reverse gap-1">
+  <span
+    class="align-self-center m-4"
+    *ngIf="cart.length === 0"
+    >Noch ist dein Warenkorb leer...</span
+  >
   <div
     *ngFor="let item of cart; index as i"
     class="cart-item-wrapper">

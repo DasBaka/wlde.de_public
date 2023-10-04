@@ -20,7 +20,7 @@ const routes: Routes = [
   {
     path: 'your-order/:id',
     title: 'Deine Bestellung | wlde.de',
-    component: DoneComponent,
+    component: MainComponent,
   },
   {
     path: '',

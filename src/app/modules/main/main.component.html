@@ -8,7 +8,8 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="
       ((isHandset$ | async) === true || cart.length > 0) &&
-      params['page'] === undefined
+      params['page'] === undefined &&
+      currentUrl != 'your-order'
     ">
     <mat-toolbar class="d-flex justify-content-center">Warenkorb</mat-toolbar>
     <mat-divider class="pb-1"></mat-divider>
@@ -87,7 +88,7 @@
           <mat-icon class="mat-icon-filled">info</mat-icon>
         </button>
         <button
-          *ngIf="params['page'] === undefined"
+          *ngIf="params['page'] === undefined && currentUrl != 'your-order'"
           type="button"
           mat-icon-button
           (click)="drawer.toggle()">
@@ -102,13 +103,14 @@
     </mat-toolbar>
     <!-- Add Content Here -->
     <app-dishes
-      *ngIf="params['page'] === undefined"
+      *ngIf="params['page'] === undefined && currentUrl != 'your-order'"
       [dataService]="dataService"
       (calc)="calcPrice($event); sumOfItems()"
       [cart]="cart"></app-dishes>
     <app-order-stepper
       *ngIf="params['page'] == 'order'"
       [loggedInUser]="currentUser"></app-order-stepper>
+    <app-done *ngIf="currentUrl == 'your-order'"></app-done>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

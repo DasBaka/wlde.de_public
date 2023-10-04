@@ -5,7 +5,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
 import { CurrencyFormatterService } from 'src/app/core/services/currency-formatter.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -29,6 +29,7 @@ export class MainComponent implements OnInit, OnDestroy {
   currentUser!: CustomerProfile & { id: string };
   private user!: User | null;
   params!: { [key: string]: any };
+  currentUrl: string = '';
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -59,6 +60,8 @@ export class MainComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('cart') !== null) {
       this.cart = this.getCartFromLS();
     }
+    let segments = this.route.snapshot.url.map((x) => x.path);
+    this.currentUrl = segments[0];
   }
 
   ngOnDestroy(): void {

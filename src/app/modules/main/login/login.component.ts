@@ -34,7 +34,6 @@ export class LoginComponent implements AfterViewInit {
   regForm!: FormGroup;
   loading = false;
   userData!: CustomerProfile & { id: string };
-  @ViewChild('spinner1') loginSpin!: MatProgressSpinner;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>) {
     this.initForms();
@@ -97,11 +96,15 @@ export class LoginComponent implements AfterViewInit {
   async onLogin() {
     let form = this.loginForm.controls;
     this.whileLoading();
-    await this.authService.signIn(form['mail'].value, form['pw'].value);
-    await this.loadUserData(this.authService.currentUser?.uid).then(() => {
-      this.whileLoading();
-      this.dialogRef.close(this.userData);
-    });
+    try {
+      await this.authService.signIn(form['mail'].value, form['pw'].value);
+      await this.loadUserData(this.authService.currentUser?.uid).then(() => {
+        this.dialogRef.close(this.userData);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    this.whileLoading();
   }
 
   async loadUserData(id?: string) {
