@@ -75,18 +75,16 @@ export class DishesComponent {
     let a = this.loggedInUser?.address;
     let c = this.loggedInUser?.contact;
     let d = this.loggedInUser?.customer;
-    console.log(
-      [
-        a?.house,
-        a?.city,
-        a?.postalCode,
-        a?.street,
-        c?.phone,
-        d?.firstname,
-        d?.lastname,
-      ].some((value) => {
-        return !value;
-      })
-    );
+    return [
+      a?.house,
+      a?.city,
+      a?.postalCode,
+      a?.street,
+      c?.phone,
+      d?.firstname,
+      d?.lastname,
+    ].some((value) => {
+      return !value;
+    });
   }
 }

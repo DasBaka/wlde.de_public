@@ -5,25 +5,72 @@
   class="container d-flex flex-column flex-grow-1 gap-2 mb-5 position-relative">
   <div>
     <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
-    <div
-      class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper">
+    <div class="d-flex justify-content-center align-items-center">
       <mat-card
-        *ngIf="loggedInUser"
+        *ngIf="loggedInUser && missingAddress()"
         appearance="outlined"
-        class="w-50 info-box">
-        <mat-card-header class="d-flex w-100">
+        [class.d-none]="close0.checked"
+        class="w-50 info-box position-relative">
+        <mat-card-header class="d-flex me-3">
           <mat-card-title><mat-icon>info</mat-icon></mat-card-title
           ><mat-card-subtitle
             >Deine Lieferadresse scheint noch unvollständig zu
             sein.</mat-card-subtitle
           >
         </mat-card-header>
-        <mat-card-actions class="d-flex justify-content-end">
+        <mat-card-actions class="d-flex justify-content-end w-100">
           <a
             mat-flat-button
             href="your-data"
+            class="text-center w-100"
             >Jetzt vervollständigen
           </a>
+          <input
+            name="close0"
+            id="close0"
+            type="checkbox"
+            class="d-none"
+            ngModel
+            #close0 />
+          <label
+            for="close0"
+            class="position-absolute top-0 mt-2 end-0 me-2"
+            style="cursor: pointer"
+            ><mat-icon>close</mat-icon></label
+          >
+        </mat-card-actions>
+      </mat-card>
+      <mat-card
+        *ngIf="loggedInUser && missingAddress()"
+        appearance="outlined"
+        [class.d-none]="close1.checked"
+        class="w-50 info-box position-relative">
+        <mat-card-header class="d-flex me-3">
+          <mat-card-title><mat-icon>info</mat-icon></mat-card-title
+          ><mat-card-subtitle
+            >Wie es scheint, hast du vor kurzem bestellt.</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-actions class="d-flex justify-content-end w-100">
+          <a
+            mat-flat-button
+            href="your-data"
+            class="text-center"
+            >Hier siehst du, wie es deiner Bestellung geht.
+          </a>
+          <input
+            name="close1"
+            id="close1"
+            type="checkbox"
+            class="d-none"
+            ngModel
+            #close1 />
+          <label
+            for="close1"
+            class="position-absolute top-0 mt-2 end-0 me-2"
+            style="cursor: pointer"
+            ><mat-icon>close</mat-icon></label
+          >
         </mat-card-actions>
       </mat-card>
     </div>
