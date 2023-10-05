@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
@@ -18,7 +24,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   private breakpointObserver = inject(BreakpointObserver);
   dataService: FirestoreDataService = inject(FirestoreDataService);
   authService = inject(AuthService);
@@ -66,6 +72,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.sumOfItems();
   }
 
   checkLSForOrder() {
@@ -150,10 +160,12 @@ export class MainComponent implements OnInit, OnDestroy {
       })
       .afterClosed()
       .subscribe((result) => {
-        this.currentUser = result;
-        this._snackBar.open(this.welcomMessage(), undefined, {
-          duration: 2500,
-        });
+        if (result !== undefined) {
+          this.currentUser = result;
+          this._snackBar.open(this.welcomMessage(), undefined, {
+            duration: 2500,
+          });
+        }
       });
   }
 

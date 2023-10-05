@@ -18,6 +18,7 @@ import { CartItem } from '../main.component';
 export class DishesComponent {
   selectedTags = [];
   filteredObservable$!: Observable<any[]>;
+  disabled = false;
 
   @ViewChild('tagWrapper') tagDiv!: ElementRef;
 
@@ -25,6 +26,17 @@ export class DishesComponent {
   @Input() cart: CartItem[] = [];
 
   @Output() calc: EventEmitter<CartItem> = new EventEmitter<CartItem>();
+
+  cooldown() {
+    this.disabled = true;
+    setTimeout(() => {
+      this.disabled = false;
+    }, 300);
+  }
+
+  timeNow() {
+    return Date.now();
+  }
 
   scrolled() {
     if (this.tagDiv) {

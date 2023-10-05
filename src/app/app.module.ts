@@ -38,6 +38,7 @@ import { LoginComponent } from './modules/main/login/login.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DishesComponent } from './modules/main/dishes/dishes.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { DishesComponent } from './modules/main/dishes/dishes.component';
     MatProgressBarModule,
     MatDialogModule,
     MatProgressSpinnerModule,
+    MatTooltipModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseCrm)),
     provideFirebaseApp(() => initializeApp(environment.firebaseClone, 'clone')),
     provideFirestore(() => getFirestore()),

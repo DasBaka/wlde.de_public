@@ -1,21 +1,14 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Output,
-  ViewChild,
-  inject,
-} from '@angular/core';
-import { DocumentReference, getDoc, setDoc } from '@angular/fire/firestore';
+import { AfterViewInit, Component, inject } from '@angular/core';
+import { getDoc, setDoc } from '@angular/fire/firestore';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   AbstractControl,
+  ValidatorFn,
+  ValidationErrors,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { updateDoc } from 'firebase/firestore';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
@@ -34,23 +27,25 @@ export class LoginComponent implements AfterViewInit {
   regForm!: FormGroup;
   loading = false;
   userData!: CustomerProfile & { id: string };
+  resetPw = false;
 
   constructor(public dialogRef: MatDialogRef<LoginComponent>) {
     this.initForms();
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.resetPw = false;
+      this.loginForm.controls['pw'].enable();
+    });
   }
 
   ngAfterViewInit(): void {
-    this.regForm.addValidators(
-      this.comparePW(
-        this.loginForm.controls['pw'],
-        this.loginForm.controls['check']
-      )
+    this.regForm.controls['check'].addValidators(
+      this.comparePW(this.loginForm.controls['pw'])
     );
   }
 
   initForms() {
     this.loginForm = this.fb.group({
-      mail: [null, Validators.required],
+      mail: [null, [Validators.required, Validators.email]],
       pw: [
         null,
         [
@@ -62,7 +57,7 @@ export class LoginComponent implements AfterViewInit {
       ],
     });
     this.regForm = this.fb.group({
-      mail: [null, Validators.required],
+      mail: [null, [Validators.required, Validators.email]],
       pw: [
         null,
         [
@@ -72,24 +67,21 @@ export class LoginComponent implements AfterViewInit {
           ),
         ],
       ],
-      check: [
-        null,
-        [
-          Validators.required,
-          Validators.pattern(
-            /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/
-          ),
-        ],
-      ],
+      check: [null, [Validators.required]],
     });
   }
 
-  comparePW(pw: AbstractControl, check: AbstractControl) {
-    return () => {
-      if (pw.value !== check.value) {
-        return { match_error: 'Value does not match' };
+  comparePW(pw: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
       }
-      return null;
+      if (pw.value === value) {
+        return null;
+      } else {
+        return { match_error: true };
+      }
     };
   }
 
@@ -166,5 +158,16 @@ export class LoginComponent implements AfterViewInit {
   whileLoading() {
     this.loading = !this.loading;
     this.dialogRef.disableClose = this.loading;
+  }
+
+  log() {
+    console.log(
+      this.loginForm.controls['mail'].valid,
+      this.resetPw,
+      this.loginForm.controls['mail'].value != '',
+      this.resetPw &&
+        this.loginForm.controls['mail'].value != '' &&
+        this.loginForm.controls['mail'].valid
+    );
   }
 }

@@ -21,7 +21,8 @@
         class="scroll-btn left-btn"
         [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 8 : false"
         color="accent"
-        (click)="scrollTags(-1)">
+        [disabled]="disabled"
+        (click)="scrollTags(-1); cooldown()">
         <mat-icon>arrow_circle_left</mat-icon>
       </button>
     </div>
@@ -56,7 +57,8 @@
             : false
         "
         color="accent"
-        (click)="scrollTags(1)">
+        [disabled]="disabled"
+        (click)="scrollTags(1); cooldown()">
         <mat-icon>arrow_circle_right</mat-icon>
       </button>
     </div>
