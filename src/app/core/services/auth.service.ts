@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { FirebaseApps } from '@angular/fire/app';
 import {
   Auth,
@@ -11,12 +11,16 @@ import {
   onAuthStateChanged,
   signOut,
 } from '@angular/fire/auth';
+import { getDoc } from 'firebase/firestore';
 import { Observable, Subscription, map } from 'rxjs';
+import { CustomerProfile } from 'src/models/interfaces/customer-profile';
+import { FirestoreDataService } from './firestore-data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private dataService = inject(FirestoreDataService);
   auth!: Auth;
   user$!: Observable<User | null>;
   emailProvider = new EmailAuthProvider();
@@ -65,7 +69,7 @@ export class AuthService {
       });
   }
 
-  logout() {
-    signOut(this.auth);
+  async logout() {
+    await signOut(this.auth);
   }
 }

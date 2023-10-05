@@ -23,14 +23,15 @@ import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 })
 export class AddressComponent implements OnChanges {
   dataService: FirestoreDataService = inject(FirestoreDataService);
+  authService: AuthService = inject(AuthService);
   dataToEdit = new Customer();
-  @Input() loggedInUser!: CustomerProfile & { id: string };
+  @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
   @Output() controlAddress = new EventEmitter<FormGroup>();
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
 
   constructor() {
-    if (this.loggedInUser) {
+    if (this.loggedInUser && this.loggedInUser !== null) {
       this.dataToEdit = new Customer(this.loggedInUser);
     }
     this.initForm();
@@ -41,8 +42,10 @@ export class AddressComponent implements OnChanges {
       !changes['loggedInUser'].isFirstChange() ||
       changes['loggedInUser'].currentValue !== undefined
     ) {
-      this.dataToEdit = this.loggedInUser;
-      this.initForm();
+      if (this.loggedInUser !== null) {
+        this.dataToEdit = new Customer(this.loggedInUser);
+        this.initForm();
+      }
     }
   }
 

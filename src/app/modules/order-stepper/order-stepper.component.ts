@@ -15,8 +15,6 @@ import { FirestoreDataService } from 'src/app/core/services/firestore-data.servi
 import { OrderProfile } from 'src/models/interfaces/order-profile';
 import { DocumentReference, addDoc, updateDoc } from 'firebase/firestore';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-order-stepper',

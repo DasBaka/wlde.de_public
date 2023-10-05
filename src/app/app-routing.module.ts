@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
-import {
-  RouterModule,
-  Routes,
-  withDisabledInitialNavigation,
-} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './modules/main/main.component';
-import { CheckoutComponent } from './modules/order-stepper/checkout/checkout.component';
-import { AddressComponent } from './modules/order-stepper/address/address.component';
-import { OrderStepperComponent } from './modules/order-stepper/order-stepper.component';
-import { DoneComponent } from './modules/order-stepper/done/done.component';
 
 const routes: Routes = [
   {
@@ -19,6 +11,11 @@ const routes: Routes = [
 
   {
     path: 'your-order/:id',
+    title: 'Deine Bestellung | wlde.de',
+    component: MainComponent,
+  },
+  {
+    path: 'your-data',
     title: 'Deine Bestellung | wlde.de',
     component: MainComponent,
   },

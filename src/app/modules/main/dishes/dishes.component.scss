@@ -1,3 +1,6 @@
+@use '@angular/material' as mat;
+$takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
+
 .main-img {
   width: 100%;
   max-height: 300px;
@@ -64,5 +67,28 @@
     transition: all 0.25s ease-in-out;
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+.info-box {
+  border-color: mat.get-color-from-palette(
+    $takeaway-clone-primary,
+    600
+  ) !important;
+
+  ::ng-deep {
+    .mat-mdc-card-header-text {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+  .mat-mdc-card-title,
+  .mat-mdc-card-subtitle {
+    display: initial;
+  }
+
+  .mat-mdc-card-subtitle {
+    padding-bottom: 8px;
   }
 }

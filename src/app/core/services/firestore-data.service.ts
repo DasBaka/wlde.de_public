@@ -8,9 +8,12 @@ import {
   doc,
   getDoc,
   getFirestore,
+  setDoc,
   updateDoc,
 } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { Customer } from 'src/models/classes/customer.class';
+import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +24,11 @@ export class FirestoreDataService {
   orderColl$!: Observable<any[]>;
   restaurantColl$!: Observable<any[]>;
   tagColl$!: Observable<any[]>;
+  private userData!:
+    | (CustomerProfile & {
+        id: string;
+      })
+    | null;
 
   constructor(private allFirebaseApps: FirebaseApps) {
     let app = this.findApp();
@@ -71,5 +79,61 @@ export class FirestoreDataService {
 
   async deleteDoc(id: string) {
     await deleteDoc(this.getDocRef(id));
+  }
+
+  async createNewUserDoc(id: string, mail: any) {
+    let user: CustomerProfile = this.newUser(mail);
+    let u = new Customer(user);
+    await setDoc(this.getDocRef(id), user);
+    let uid = this.getDocRef(id).id;
+    await this.update(id, {
+      id: uid,
+    }).then(() => {
+      let userData = { ...u, id: uid } as CustomerProfile & {
+        id: string;
+      };
+      this.userData = userData;
+    });
+  }
+
+  newUser(mail?: any) {
+    return {
+      customer: {
+        firstname: null,
+        lastname: null,
+        company: null,
+      },
+      address: {
+        city: null,
+        house: null,
+        postalCode: null,
+        street: null,
+      },
+      contact: {
+        mail: mail ?? null,
+        phone: null,
+      },
+    };
+  }
+
+  async loadUserData(id?: string, mail?: any) {
+    let s = 'users/' + id;
+    this.userData = null;
+    if (id) {
+      const docSnap = await getDoc(this.getDocRef(s));
+      if (docSnap.exists()) {
+        await this.getUserData(s);
+      } else {
+        await this.createNewUserDoc(s, mail);
+      }
+    }
+    return this.userData;
+  }
+
+  async getUserData(id: string) {
+    let data = (await this.getDocData(id)) as CustomerProfile & {
+      id: string;
+    };
+    this.userData = data;
   }
 }

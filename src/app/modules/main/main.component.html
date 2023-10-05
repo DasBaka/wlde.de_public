@@ -58,7 +58,10 @@
       </a>
       <div class="d-flex gap-3 me-3">
         <button
-          *ngIf="currentUser === undefined"
+          *ngIf="
+            authService.auth.currentUser === undefined ||
+            authService.auth.currentUser === null
+          "
           type="button"
           mat-fab
           extended
@@ -67,17 +70,24 @@
           <mat-icon class="mat-icon-filled">account_circle</mat-icon>Login
         </button>
         <button
-          *ngIf="currentUser"
+          *ngIf="
+            authService.auth.currentUser !== undefined &&
+            authService.auth.currentUser !== null
+          "
           type="button"
           mat-icon-button
           [matMenuTriggerFor]="userMenu">
           <mat-icon class="mat-icon-filled">account_circle</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-          <button mat-menu-item>Meine Daten</button>
+          <a
+            mat-menu-item
+            href="your-data"
+            >Meine Daten</a
+          >
           <button
             mat-menu-item
-            (click)="authService.logout()">
+            (click)="logout()">
             Logout
           </button>
         </mat-menu>
@@ -104,12 +114,15 @@
     <app-dishes
       *ngIf="params['page'] === undefined && currentUrl === undefined"
       [dataService]="dataService"
+      [loggedInUser]="currentUser"
       (calc)="calcPrice($event); sumOfItems()"
       [cart]="cart"></app-dishes>
     <app-order-stepper
       *ngIf="params['page'] == 'order'"
       [loggedInUser]="currentUser"></app-order-stepper>
-    <app-done *ngIf="currentUrl == 'your-data'"></app-done>
+    <app-address
+      *ngIf="currentUrl == 'your-data'"
+      [loggedInUser]="currentUser"></app-address>
     <app-done *ngIf="currentUrl == 'your-order'"></app-done>
   </mat-sidenav-content>
 </mat-sidenav-container>

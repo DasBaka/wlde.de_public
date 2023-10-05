@@ -9,6 +9,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
@@ -29,7 +30,10 @@ export class LoginComponent implements AfterViewInit {
   userData!: CustomerProfile & { id: string };
   resetPw = false;
 
-  constructor(public dialogRef: MatDialogRef<LoginComponent>) {
+  constructor(
+    public dialogRef: MatDialogRef<LoginComponent>,
+    private router: Router
+  ) {
     this.initForms();
     this.dialogRef.afterClosed().subscribe(() => {
       this.resetPw = false;
@@ -39,7 +43,7 @@ export class LoginComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.regForm.controls['check'].addValidators(
-      this.comparePW(this.loginForm.controls['pw'])
+      this.comparePW(this.regForm.controls['pw'])
     );
   }
 
@@ -86,88 +90,44 @@ export class LoginComponent implements AfterViewInit {
   }
 
   async onLogin() {
-    let form = this.loginForm.controls;
-    this.whileLoading();
-    try {
-      await this.authService.signIn(form['mail'].value, form['pw'].value);
-      await this.loadUserData(this.authService.currentUser?.uid).then(() => {
-        this.dialogRef.close(this.userData);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    this.whileLoading();
-  }
-
-  async loadUserData(id?: string) {
-    let s = 'users/' + id;
-    if (id) {
-      const docSnap = await getDoc(this.dataService.getDocRef(s));
-      if (docSnap.exists()) {
-        await this.getUserData(s);
-      } else {
-        await this.createNewUserDoc(s);
+    if (this.loginForm.valid) {
+      let form = this.loginForm.controls;
+      this.whileLoading();
+      try {
+        await this.authService.signIn(form['mail'].value, form['pw'].value);
+        await this.dataService
+          .loadUserData(this.authService.currentUser?.uid)
+          .then(() => {
+            this.dialogRef.close(this.userData);
+          });
+      } catch (error) {
+        console.log(error);
       }
+      this.whileLoading();
     }
-  }
-
-  async getUserData(id: string) {
-    let data = (await this.dataService.getDocData(id)) as CustomerProfile & {
-      id: string;
-    };
-    this.userData = data;
-  }
-
-  async createNewUserDoc(id: string) {
-    let user: CustomerProfile = this.newUser();
-    let u = new Customer(user);
-    await setDoc(this.dataService.getDocRef(id), user);
-    let uid = this.dataService.getDocRef(id).id;
-    await this.dataService
-      .update(id, {
-        id: uid,
-      })
-      .then(() => (this.userData = { ...u, id: uid }));
-  }
-
-  newUser() {
-    return {
-      customer: {
-        firstname: null,
-        lastname: null,
-        company: null,
-      },
-      address: {
-        city: null,
-        house: null,
-        postalCode: null,
-        street: null,
-      },
-      contact: {
-        mail: this.authService.currentUser?.email ?? null,
-        phone: null,
-      },
-    };
   }
 
   async onRegister() {
-    let form = this.regForm.controls;
-    await this.authService.register(form['mail'].value, form['pw'].value);
+    if (this.regForm.valid) {
+      let form = this.regForm.controls;
+      this.whileLoading();
+      try {
+        await this.authService.register(form['mail'].value, form['pw'].value);
+        await this.authService.signIn(form['mail'].value, form['pw'].value);
+        await this.dataService
+          .loadUserData(this.authService.currentUser?.uid)
+          .then(() => {
+            this.dialogRef.close(this.userData);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      this.whileLoading();
+    }
   }
 
   whileLoading() {
     this.loading = !this.loading;
     this.dialogRef.disableClose = this.loading;
-  }
-
-  log() {
-    console.log(
-      this.loginForm.controls['mail'].valid,
-      this.resetPw,
-      this.loginForm.controls['mail'].value != '',
-      this.resetPw &&
-        this.loginForm.controls['mail'].value != '' &&
-        this.loginForm.controls['mail'].valid
-    );
   }
 }

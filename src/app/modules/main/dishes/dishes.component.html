@@ -6,7 +6,27 @@
   <div>
     <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
     <div
-      class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper"></div>
+      class="d-flex flex-column justify-content-center align-items-center overflow-auto register-wrapper">
+      <mat-card
+        *ngIf="loggedInUser"
+        appearance="outlined"
+        class="w-50 info-box">
+        <mat-card-header class="d-flex w-100">
+          <mat-card-title><mat-icon>info</mat-icon></mat-card-title
+          ><mat-card-subtitle
+            >Deine Lieferadresse scheint noch unvollständig zu
+            sein.</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-actions class="d-flex justify-content-end">
+          <a
+            mat-flat-button
+            href="your-data"
+            >Jetzt vervollständigen
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
       cupiditate blanditiis fugiat mollitia repellat, incidunt velit numquam
@@ -22,7 +42,7 @@
         [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 8 : false"
         color="accent"
         [disabled]="disabled"
-        (click)="scrollTags(-1); cooldown()">
+        (click)="scrollTags(-1); cooldown(); missingAddress()">
         <mat-icon>arrow_circle_left</mat-icon>
       </button>
     </div>

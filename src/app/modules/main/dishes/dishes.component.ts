@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { CartItem } from '../main.component';
+import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 
 @Component({
   selector: 'app-dishes',
@@ -24,6 +25,7 @@ export class DishesComponent {
 
   @Input() dataService!: FirestoreDataService;
   @Input() cart: CartItem[] = [];
+  @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
 
   @Output() calc: EventEmitter<CartItem> = new EventEmitter<CartItem>();
 
@@ -32,10 +34,6 @@ export class DishesComponent {
     setTimeout(() => {
       this.disabled = false;
     }, 300);
-  }
-
-  timeNow() {
-    return Date.now();
   }
 
   scrolled() {
@@ -71,5 +69,24 @@ export class DishesComponent {
       this.cart.push(dish);
     }
     this.calc.emit(dish);
+  }
+
+  missingAddress() {
+    let a = this.loggedInUser?.address;
+    let c = this.loggedInUser?.contact;
+    let d = this.loggedInUser?.customer;
+    console.log(
+      [
+        a?.house,
+        a?.city,
+        a?.postalCode,
+        a?.street,
+        c?.phone,
+        d?.firstname,
+        d?.lastname,
+      ].some((value) => {
+        return !value;
+      })
+    );
   }
 }

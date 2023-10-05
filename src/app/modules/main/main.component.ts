@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
   cart: CartItem[] = [];
   items = 0;
-  currentUser!: CustomerProfile & { id: string };
+  currentUser!: (CustomerProfile & { id: string }) | null;
   private user!: User | null;
   params!: { [key: string]: any };
   currentUrl: string = '';
@@ -51,15 +51,18 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     private _snackBar: MatSnackBar
   ) {
     this.checkLSForOrder();
-    this.userSub = this.authService.user$.subscribe((user: User | null) => {
-      this.user = user;
-    });
+    this.userSub = this.authService.user$.subscribe(
+      async (user: User | null) => {
+        this.user = user;
+        this.currentUser = await this.dataService.loadUserData(this.user?.uid);
+      }
+    );
     this.route.queryParams.subscribe((params) => {
       this.params = params;
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     if (this.getTimeFromLS() + 30 * 60 * 1000 < Date.now()) {
       localStorage.clear();
     }
@@ -74,7 +77,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSub.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.sumOfItems();
   }
 
@@ -170,12 +173,17 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   welcomMessage() {
-    let c = this.currentUser.customer;
+    let c = this.currentUser?.customer ?? null;
     return (
       'Willkommen zurück' +
-      (c.firstname !== null ? c.firstname + ' ' : '') +
-      (c.lastname !== null ? c.lastname + '!' : '!')
+      (c?.firstname !== null ? c?.firstname + ' ' : '') +
+      (c?.lastname !== null ? c?.lastname + '!' : '!')
     );
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigate(['/']);
   }
 }
 

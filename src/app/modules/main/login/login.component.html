@@ -28,7 +28,6 @@
                 <mat-label>Emailadresse</mat-label>
                 <input
                   matInput
-                  (input)="log()"
                   #mailInput
                   formControlName="mail" />
                 <mat-error *ngIf="loginForm.get('mail')?.hasError('required')">
@@ -114,7 +113,6 @@
                 <mat-label>Emailadresse</mat-label>
                 <input
                   matInput
-                  (input)="log()"
                   formControlName="mail" />
                 <mat-error *ngIf="regForm.get('mail')?.hasError('required')">
                   <strong>*Erforderlich!</strong>
