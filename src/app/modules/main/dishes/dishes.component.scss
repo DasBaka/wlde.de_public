@@ -14,7 +14,6 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
   display: grid !important;
   grid-auto-flow: column;
   height: 48px;
-  transition: width 0.25s ease-in-out;
 
   overflow-x: auto;
   overflow-y: hidden;
@@ -38,35 +37,9 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
   }
 }
 
-.tag-btn-wrapper {
-  transition: width 0.25s ease-in-out;
-  &:has(> .scroll-btn:not(.show)) {
-    width: 0;
-  }
-
-  &:has(> .scroll-btn.show) {
-    width: 48px;
-    transition: width 0.25s ease-in-out;
-  }
-}
-
 .scroll-btn {
-  transform: scale(0, 1) translateX(0);
-  transition: all 0.25s ease-in-out;
-  &.left-btn {
-    margin-right: -48px;
-  }
-  &.right-btn {
-    position: relative;
-    right: 0;
-    margin-left: -48px;
-  }
-
-  &.show {
-    transform: scale(1, 1) translateX(0);
-    transition: all 0.25s ease-in-out;
-    margin-left: 0;
-    margin-right: 0;
+  &:disabled {
+    opacity: 0.5;
   }
 }
 

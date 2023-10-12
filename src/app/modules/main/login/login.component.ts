@@ -29,6 +29,7 @@ export class LoginComponent implements AfterViewInit {
   loading = false;
   userData!: CustomerProfile & { id: string };
   resetPw = false;
+  currError = '';
 
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
@@ -49,7 +50,10 @@ export class LoginComponent implements AfterViewInit {
 
   initForms() {
     this.loginForm = this.fb.group({
-      mail: [null, [Validators.required, Validators.email]],
+      mail: [
+        null,
+        [Validators.required, Validators.email, this.fbError('user')],
+      ],
       pw: [
         null,
         [
@@ -57,11 +61,15 @@ export class LoginComponent implements AfterViewInit {
           Validators.pattern(
             /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/
           ),
+          this.fbError('pw'),
         ],
       ],
     });
     this.regForm = this.fb.group({
-      mail: [null, [Validators.required, Validators.email]],
+      mail: [
+        null,
+        [Validators.required, Validators.email, this.fbError('reg')],
+      ],
       pw: [
         null,
         [
@@ -89,6 +97,22 @@ export class LoginComponent implements AfterViewInit {
     };
   }
 
+  fbError(type: string): ValidatorFn {
+    return (): ValidationErrors | null => {
+      if (this.currError == '') {
+        return null;
+      } else if (this.currError == 'user' && type == 'user') {
+        return { user_error: true };
+      } else if (this.currError == 'pw' && type == 'pw') {
+        return { pw_error: true };
+      } else if (this.currError == 'reg-user' && type == 'reg') {
+        return { reg_error: true };
+      } else {
+        return null;
+      }
+    };
+  }
+
   async onLogin() {
     if (this.loginForm.valid) {
       let form = this.loginForm.controls;
@@ -101,10 +125,20 @@ export class LoginComponent implements AfterViewInit {
             this.dialogRef.close(this.userData);
           });
       } catch (error) {
-        console.log(error);
+        this.checkForLoginError(error);
       }
       this.whileLoading();
     }
+  }
+
+  checkForLoginError(error: unknown) {
+    if (error == 'Firebase: Error (auth/user-not-found).') {
+      this.currError = 'user';
+    }
+    if (error == 'Firebase: Error (auth/wrong-password).') {
+      this.currError = 'pw';
+    }
+    this.loginForm.enable();
   }
 
   async onRegister() {
@@ -120,10 +154,17 @@ export class LoginComponent implements AfterViewInit {
             this.dialogRef.close(this.userData);
           });
       } catch (error) {
-        console.log(error);
+        this.checkForRegisterError(error);
       }
       this.whileLoading();
     }
+  }
+
+  checkForRegisterError(error: unknown) {
+    if (error == 'Firebase: Error (auth/email-already-in-use).') {
+      this.currError = 'reg-user';
+    }
+    this.regForm.enable();
   }
 
   whileLoading() {

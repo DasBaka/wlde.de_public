@@ -86,10 +86,11 @@
       <button
         mat-icon-button
         class="scroll-btn left-btn"
-        [class.show]="tagDiv ? tagDiv.nativeElement.scrollLeft > 8 : false"
         color="accent"
-        [disabled]="disabled"
-        (click)="scrollTags(-1); cooldown(); missingAddress()">
+        [disabled]="
+          disabled || (tagDiv ? tagDiv.nativeElement.scrollLeft <= 8 : false)
+        "
+        (click)="scrollTags(-1); cooldown()">
         <mat-icon>arrow_circle_left</mat-icon>
       </button>
     </div>
@@ -116,15 +117,15 @@
       <button
         mat-icon-button
         class="scroll-btn right-btn"
-        [class.show]="
-          tagDiv
-            ? tagDiv.nativeElement.scrollLeft <
+        color="accent"
+        [disabled]="
+          disabled ||
+          (tagDiv
+            ? tagDiv.nativeElement.scrollLeft >=
               tagDiv.nativeElement.scrollWidth -
                 tagDiv.nativeElement.offsetWidth
-            : false
+            : false)
         "
-        color="accent"
-        [disabled]="disabled"
         (click)="scrollTags(1); cooldown()">
         <mat-icon>arrow_circle_right</mat-icon>
       </button>

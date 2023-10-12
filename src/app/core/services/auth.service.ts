@@ -53,7 +53,7 @@ export class AuthService {
         this.currentUser = userCredential.user;
       })
       .catch((e) => {
-        console.log(e.code, e.message);
+        throw e.message;
       });
   }
 
@@ -64,8 +64,6 @@ export class AuthService {
       })
       .catch((e: Error) => {
         throw e.message;
-        // Firebase: Error (auth/user-not-found).
-        // Firebase: Error (auth/wrong-password).
       });
   }
 

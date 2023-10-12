@@ -29,12 +29,17 @@
                 <input
                   matInput
                   #mailInput
+                  (input)="currError = ''"
                   formControlName="mail" />
                 <mat-error *ngIf="loginForm.get('mail')?.hasError('required')">
                   <strong>*Erforderlich!</strong>
                 </mat-error>
                 <mat-error *ngIf="loginForm.get('mail')?.hasError('email')">
                   <strong>Ungültige Adresse!</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="loginForm.get('mail')?.hasError('user_error')">
+                  <strong>Dieser User existiert nicht.</strong>
                 </mat-error>
               </mat-form-field>
               <mat-form-field
@@ -45,11 +50,15 @@
                   matInput
                   #tooltip1="matTooltip"
                   (focus)="tooltip1.show()"
+                  (input)="currError = ''"
                   matTooltip="6-20 Zeichen: mind. je 1x Groß-, Kleinbuchstabe, Zahl und
               Sonderzeichen"
                   formControlName="pw" />
                 <mat-error *ngIf="loginForm.get('pw')?.hasError('required')">
                   <strong>*Erforderlich!</strong>
+                </mat-error>
+                <mat-error *ngIf="loginForm.get('pw')?.hasError('pw_error')">
+                  <strong>Falsches Passwort.</strong>
                 </mat-error>
               </mat-form-field>
               <button
@@ -113,12 +122,16 @@
                 <mat-label>Emailadresse</mat-label>
                 <input
                   matInput
+                  (input)="currError = ''"
                   formControlName="mail" />
                 <mat-error *ngIf="regForm.get('mail')?.hasError('required')">
                   <strong>*Erforderlich!</strong>
                 </mat-error>
                 <mat-error *ngIf="regForm.get('mail')?.hasError('email')">
                   <strong>Ungültige Adresse!</strong>
+                </mat-error>
+                <mat-error *ngIf="regForm.get('mail')?.hasError('reg_error')">
+                  <strong>Dieser User existiert bereits!</strong>
                 </mat-error>
               </mat-form-field>
               <mat-form-field
