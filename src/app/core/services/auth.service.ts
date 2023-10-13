@@ -10,6 +10,7 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { getDoc } from 'firebase/firestore';
 import { Observable, Subscription, map } from 'rxjs';
@@ -65,6 +66,12 @@ export class AuthService {
       .catch((e: Error) => {
         throw e.message;
       });
+  }
+
+  async pwReset(mail: string) {
+    await sendPasswordResetEmail(this.auth, mail).catch((e: Error) => {
+      throw e.message;
+    });
   }
 
   async logout() {

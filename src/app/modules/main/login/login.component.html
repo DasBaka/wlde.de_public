@@ -62,6 +62,7 @@
                 </mat-error>
               </mat-form-field>
               <button
+                *ngIf="!resetted"
                 type="button"
                 mat-flat-button
                 [color]="resetPw ? 'warn' : ''"
@@ -71,19 +72,19 @@
                     !loginForm.controls['mail'].valid)
                 "
                 class="mb-3 mt-1"
-                (click)="
-                  $event.preventDefault();
-                  resetPw = true;
-                  mailInput.focus();
-                  loginForm.controls['pw'].disable()
-                ">
+                (click)="$event.preventDefault(); pwReset(); mailInput.focus()">
                 <mat-spinner
-                  *ngIf="loading"
+                  *ngIf="loading && resetPw"
                   diameter="36"></mat-spinner>
                 <span *ngIf="!loading"
                   >Passwort {{ resetPw ? 'zurücksetzen!' : 'vergessen?' }}</span
                 >
               </button>
+              <span
+                *ngIf="resetted"
+                class="pb-4 pt-2"
+                >Passwort wurde zurückgesetzt. Überprüfen Sie ihre Mail!</span
+              >
               <mat-card-actions class="d-flex gap-4">
                 <button
                   *ngIf="!resetPw"

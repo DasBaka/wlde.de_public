@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, inject } from '@angular/core';
-import { getDoc, setDoc } from '@angular/fire/firestore';
 import {
   FormBuilder,
   FormGroup,
@@ -12,7 +11,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
-import { Customer } from 'src/models/classes/customer.class';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 
 @Component({
@@ -29,6 +27,7 @@ export class LoginComponent implements AfterViewInit {
   loading = false;
   userData!: CustomerProfile & { id: string };
   resetPw = false;
+  resetted = false;
   currError = '';
 
   constructor(
@@ -117,17 +116,20 @@ export class LoginComponent implements AfterViewInit {
     if (this.loginForm.valid) {
       let form = this.loginForm.controls;
       this.whileLoading();
-      try {
-        await this.authService.signIn(form['mail'].value, form['pw'].value);
-        await this.dataService
-          .loadUserData(this.authService.currentUser?.uid)
-          .then(() => {
-            this.dialogRef.close(this.userData);
-          });
-      } catch (error) {
-        this.checkForLoginError(error);
-      }
+      await this.tryLogin(form);
       this.whileLoading();
+    }
+  }
+
+  async tryLogin(form: { [key: string]: AbstractControl<any, any> }) {
+    try {
+      await this.authService
+        .signIn(form['mail'].value, form['pw'].value)
+        .then(() => {
+          this.dialogRef.close(this.userData);
+        });
+    } catch (error) {
+      this.checkForLoginError(error);
     }
   }
 
@@ -143,20 +145,19 @@ export class LoginComponent implements AfterViewInit {
 
   async onRegister() {
     if (this.regForm.valid) {
-      let form = this.regForm.controls;
       this.whileLoading();
-      try {
-        await this.authService.register(form['mail'].value, form['pw'].value);
-        await this.authService.signIn(form['mail'].value, form['pw'].value);
-        await this.dataService
-          .loadUserData(this.authService.currentUser?.uid)
-          .then(() => {
-            this.dialogRef.close(this.userData);
-          });
-      } catch (error) {
-        this.checkForRegisterError(error);
-      }
+      await this.tryReg();
       this.whileLoading();
+    }
+  }
+
+  async tryReg() {
+    let form = this.regForm.controls;
+    try {
+      await this.authService.register(form['mail'].value, form['pw'].value);
+      await this.tryLogin(form);
+    } catch (error) {
+      this.checkForRegisterError(error);
     }
   }
 
@@ -170,5 +171,30 @@ export class LoginComponent implements AfterViewInit {
   whileLoading() {
     this.loading = !this.loading;
     this.dialogRef.disableClose = this.loading;
+  }
+
+  async pwReset() {
+    if (this.resetPw == true) {
+      this.whileLoading();
+      await this.tryReset();
+      this.loading = !this.loading;
+    } else {
+      this.resetPw = true;
+      this.loginForm.controls['pw'].disable();
+    }
+  }
+
+  async tryReset() {
+    try {
+      await this.authService
+        .pwReset(this.loginForm.controls['mail'].value)
+        .then(() => {
+          this.loginForm.enable();
+          this.resetPw = false;
+          this.resetted = true;
+        });
+    } catch (error) {
+      this.checkForLoginError(error);
+    }
   }
 }

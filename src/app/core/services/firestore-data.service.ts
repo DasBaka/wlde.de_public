@@ -119,15 +119,18 @@ export class FirestoreDataService {
   async loadUserData(id?: string, mail?: any) {
     let s = 'users/' + id;
     this.userData = null;
-    if (id) {
-      const docSnap = await getDoc(this.getDocRef(s));
-      if (docSnap.exists()) {
-        await this.getUserData(s);
-      } else {
-        await this.createNewUserDoc(s, mail);
+    try {
+      if (id) {
+        const docSnap = await getDoc(this.getDocRef(s));
+        if (docSnap.exists()) {
+          await this.getUserData(s);
+        } else {
+          await this.createNewUserDoc(s, mail);
+        }
       }
+    } finally {
+      return this.userData;
     }
-    return this.userData;
   }
 
   async getUserData(id: string) {

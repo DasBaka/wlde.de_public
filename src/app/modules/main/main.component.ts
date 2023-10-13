@@ -54,7 +54,10 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userSub = this.authService.user$.subscribe(
       async (user: User | null) => {
         this.user = user;
-        this.currentUser = await this.dataService.loadUserData(this.user?.uid);
+        this.currentUser = await this.dataService.loadUserData(
+          this.user?.uid,
+          this.user?.email
+        );
       }
     );
     this.route.queryParams.subscribe((params) => {
