@@ -7,9 +7,9 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { User, user } from '@angular/fire/auth';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
@@ -25,11 +25,12 @@ export class AddressComponent implements OnChanges {
   authService: AuthService = inject(AuthService);
   dataToEdit = new Customer();
   @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
+  @Input() currentUrl: string = '';
   @Output() controlAddress = new EventEmitter<FormGroup>();
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
 
-  constructor() {
+  constructor(private router: Router) {
     if (this.loggedInUser && this.loggedInUser !== null) {
       this.dataToEdit = new Customer(this.loggedInUser);
     }
@@ -95,7 +96,24 @@ export class AddressComponent implements OnChanges {
 
   async onSubmit(): Promise<void> {
     if (this.customerForm.valid) {
-      this.controlAddress.emit(this.customerForm);
+      switch (this.currentUrl) {
+        case 'your-data':
+          try {
+            this.dataService.update(
+              'users/' + this.loggedInUser?.id,
+              this.customerForm.value
+            );
+          } catch (error) {
+            console.log(error);
+          } finally {
+            this.router.navigate(['']);
+          }
+          break;
+
+        default:
+          this.controlAddress.emit(this.customerForm);
+          break;
+      }
     }
   }
 }

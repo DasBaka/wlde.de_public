@@ -51,3 +51,8 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
     600
   ) !important;
 }
+
+.your-data.mat-mdc-card-outlined {
+  border-color: transparent !important;
+  background-color: #fafafa;
+}

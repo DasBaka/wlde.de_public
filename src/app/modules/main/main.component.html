@@ -122,6 +122,7 @@
       [loggedInUser]="currentUser"></app-order-stepper>
     <app-address
       *ngIf="currentUrl == 'your-data'"
+      [currentUrl]="currentUrl"
       [loggedInUser]="currentUser"></app-address>
     <app-done *ngIf="currentUrl == 'your-order'"></app-done>
   </mat-sidenav-content>

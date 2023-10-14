@@ -1,11 +1,21 @@
-<div class="overflow-auto">
+<div
+  class="overflow-auto"
+  [class.container]="currentUrl == 'your-data'">
   <form
     [formGroup]="customerForm"
     novalidate
     (ngSubmit)="onSubmit()">
-    <mat-card class="shipping-card">
+    <mat-card
+      class="shipping-card"
+      [class.your-data]="currentUrl == 'your-data'"
+      appearance="outlined">
       <mat-card-header>
-        <mat-card-title><h1>Lieferadresse</h1></mat-card-title>
+        <mat-card-title
+          ><h1
+            [innerText]="
+              currentUrl == 'your-data' ? 'Deine Daten' : 'Lieferadresse'
+            "></h1
+        ></mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <div formGroupName="customer">
@@ -185,7 +195,9 @@
             </div>
           </div>
         </div>
-        <p class="mat-color-accent">
+        <p
+          *ngIf="currentUrl != 'your-data'"
+          class="mat-color-accent">
           <small
             ><i
               >Da dies nur eine Demonstration ist, wird der Zahlungsschritt
@@ -199,9 +211,10 @@
           [disabled]="!customerForm.valid"
           mat-raised-button
           color="primary"
-          type="submit">
-          Weiter
-        </button>
+          type="submit"
+          [innerText]="
+            currentUrl == 'your-data' ? 'Aktualisieren' : 'Weiter'
+          "></button>
       </mat-card-actions>
     </mat-card>
   </form>
