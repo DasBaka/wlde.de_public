@@ -11,7 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { DishProfile } from 'src/models/interfaces/dish-profile.interface';
 import { CurrencyFormatterService } from 'src/app/core/services/currency-formatter.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -149,8 +149,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   toCheckout() {
-    this.router.navigate([], {
-      relativeTo: this.route,
+    this.router.navigate([''], {
       queryParams: { page: 'order' },
       state: { cart: this.cart, price: this.priceOfItems() },
       queryParamsHandling: 'merge',
@@ -166,22 +165,25 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       })
       .afterClosed()
       .subscribe((result) => {
-        if (result !== undefined) {
-          this.currentUser = result;
-          this._snackBar.open(this.welcomMessage(), undefined, {
+        if (this.user && this.user !== null) {
+          this._snackBar.open(this.welcomMessage(result ?? null), undefined, {
             duration: 2500,
           });
         }
       });
   }
 
-  welcomMessage() {
+  welcomMessage(state: string | null) {
     let c = this.currentUser?.customer ?? null;
-    return (
-      'Willkommen zurück' +
-      (c?.firstname !== null ? c?.firstname + ' ' : '') +
-      (c?.lastname !== null ? c?.lastname + '!' : '!')
-    );
+    if (state !== null) {
+      return 'Willkommen bei "Wir-liefern-dein-Essen.de"';
+    } else {
+      return (
+        'Willkommen zurück' +
+        (c?.firstname !== null ? ' ' + c?.firstname + ' ' : '') +
+        (c?.lastname !== null ? c?.lastname + '!' : '!')
+      );
+    }
   }
 
   async logout() {

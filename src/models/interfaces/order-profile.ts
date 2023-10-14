@@ -4,7 +4,7 @@ import { CustomerProfile } from './customer-profile';
 export interface OrderProfile {
   id: string;
   timestamp: number;
-  user: {
+  user?: {
     id?: string | null;
     data: CustomerProfile;
   };

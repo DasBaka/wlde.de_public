@@ -81,9 +81,8 @@ export class OrderStepperComponent implements OnInit {
   async placeOrder() {
     await addDoc(this.dataService.coll('orders'), this.orderData()).then(
       (doc: DocumentReference) => {
-        let id = doc.id;
-        updateDoc(doc, { id: id });
-        this.setOrderToLS(id);
+        this.dataService.syncOrder(doc, this.loggedInUser);
+        this.setOrderToLS(doc.id);
       }
     );
     this.changeState();

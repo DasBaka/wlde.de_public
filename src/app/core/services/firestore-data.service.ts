@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApps } from '@angular/fire/app';
-import { collectionData } from '@angular/fire/firestore';
+import { addDoc, collectionData } from '@angular/fire/firestore';
 import {
+  DocumentReference,
+  DocumentSnapshot,
   Firestore,
   collection,
   deleteDoc,
@@ -14,6 +16,7 @@ import {
 import { Observable } from 'rxjs';
 import { Customer } from 'src/models/classes/customer.class';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
+import { OrderProfile } from 'src/models/interfaces/order-profile';
 
 @Injectable({
   providedIn: 'root',
@@ -138,5 +141,22 @@ export class FirestoreDataService {
       id: string;
     };
     this.userData = data;
+  }
+
+  async syncOrder(doc: DocumentReference, user: any) {
+    let id = doc.id;
+    try {
+      updateDoc(doc, { id: id });
+      let data: any;
+      await getDoc(doc).then((ds: DocumentSnapshot) => {
+        data = ds.data() as OrderProfile;
+        delete data.user;
+      });
+      if (user) {
+        addDoc(collection(this.getDocRef('users/' + user.id), 'orders'), data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

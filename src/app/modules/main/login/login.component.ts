@@ -25,7 +25,6 @@ export class LoginComponent implements AfterViewInit {
   loginForm!: FormGroup;
   regForm!: FormGroup;
   loading = false;
-  userData!: CustomerProfile & { id: string };
   resetPw = false;
   resetted = false;
   currError = '';
@@ -121,12 +120,15 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
-  async tryLogin(form: { [key: string]: AbstractControl<any, any> }) {
+  async tryLogin(
+    form: { [key: string]: AbstractControl<any, any> },
+    state?: string
+  ) {
     try {
       await this.authService
         .signIn(form['mail'].value, form['pw'].value)
         .then(() => {
-          this.dialogRef.close(this.userData);
+          this.dialogRef.close(state);
         });
     } catch (error) {
       this.checkForLoginError(error);
@@ -155,7 +157,7 @@ export class LoginComponent implements AfterViewInit {
     let form = this.regForm.controls;
     try {
       await this.authService.register(form['mail'].value, form['pw'].value);
-      await this.tryLogin(form);
+      await this.tryLogin(form, 'reg');
     } catch (error) {
       this.checkForRegisterError(error);
     }
