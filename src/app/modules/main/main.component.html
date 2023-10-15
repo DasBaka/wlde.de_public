@@ -7,7 +7,8 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="
-      ((isHandset$ | async) === true || cart.length > 0) &&
+      (isHandset$ | async) === false &&
+      cart.length > 0 &&
       params['page'] === undefined &&
       currentUrl != 'your-order'
     ">
@@ -19,7 +20,7 @@
         (adjustPrice)="calcPrice($event)"
         (adjustItems)="sumOfItems()"></app-cart>
       <div>
-        <mat-divider></mat-divider>
+        <mat-divider *ngIf="this.cart.length > 0"></mat-divider>
         <mat-card
           appearance="outlined"
           *ngIf="this.cart.length > 0"
@@ -54,9 +55,14 @@
         class="d-flex align-items-center gap-2 hover-title"
         [routerLink]="['/']">
         <mat-icon>local_shipping</mat-icon
-        ><span>wir-liefern-dein-essen.de</span>
+        ><span
+          [innerText]="
+            (isHandset$ | async) === false
+              ? 'wir-liefern-dein-essen.de'
+              : 'wlde.de'
+          "></span>
       </a>
-      <div class="d-flex gap-3 me-3">
+      <div class="d-flex gap-md-3 gap-1 me-md-3">
         <button
           *ngIf="
             authService.auth.currentUser === undefined ||

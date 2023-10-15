@@ -65,3 +65,10 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
     padding-bottom: 8px;
   }
 }
+
+/* .info-wrapper {
+  display: flex;
+  &:has(.info-box.d-none) {
+    display: none;
+  }
+} */

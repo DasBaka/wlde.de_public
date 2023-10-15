@@ -9,6 +9,7 @@
   <mat-stepper
     [disableRipple]="true"
     linear
+    [orientation]="(stepperOrientation | async)!"
     #stepper>
     <mat-step [stepControl]="controlAddress">
       <ng-template matStepLabel>Wohin soll es gehen?</ng-template>

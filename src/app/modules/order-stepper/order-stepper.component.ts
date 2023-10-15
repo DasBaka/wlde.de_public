@@ -8,13 +8,15 @@ import {
   inject,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStepper, StepperOrientation } from '@angular/material/stepper';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 import { CartItem } from '../main/main.component';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { OrderProfile } from 'src/models/interfaces/order-profile';
 import { DocumentReference, addDoc, updateDoc } from 'firebase/firestore';
 import { Router } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { map, async, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-order-stepper',
@@ -26,13 +28,22 @@ export class OrderStepperComponent {
   controlAddress = this._formBuilder.group({});
   controlCheck = this._formBuilder.group({});
   @ViewChild('stepper') stepper!: MatStepper;
+  stepperOrientation: Observable<StepperOrientation>;
 
   @Input() loggedInUser!: any;
   customerData!: CustomerProfile;
   order: CartItem[];
   price: string;
 
-  constructor(private _formBuilder: FormBuilder, private router: Router) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    private router: Router,
+    breakpointObserver: BreakpointObserver
+  ) {
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({ matches }) => (matches ? 'horizontal' : 'vertical')));
+
     this.order = window.history.state.cart;
     this.price = window.history.state.price;
     this.navigate();

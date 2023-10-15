@@ -4,13 +4,14 @@
 <div
   class="container d-flex flex-column flex-grow-1 gap-2 mb-5 position-relative">
   <div>
-    <h1 class="text-center p-3">Wir liefern dein Essen!</h1>
-    <div class="d-flex justify-content-center align-items-center">
+    <h1 class="text-center pt-3">Wir liefern dein Essen!</h1>
+    <div
+      class="flex-column justify-content-center align-items-center gap-2 info-wrapper">
       <mat-card
         *ngIf="loggedInUser && missingAddress()"
         appearance="outlined"
         [class.d-none]="close0.checked"
-        class="w-50 info-box position-relative">
+        class="info-box position-relative mb-3">
         <mat-card-header class="d-flex me-3">
           <mat-card-title><mat-icon>info</mat-icon></mat-card-title
           ><mat-card-subtitle
@@ -43,7 +44,7 @@
         *ngIf="ordered"
         appearance="outlined"
         [class.d-none]="close1.checked"
-        class="w-50 info-box position-relative">
+        class="info-box position-relative mb-3">
         <mat-card-header class="d-flex me-3">
           <mat-card-title><mat-icon>info</mat-icon></mat-card-title
           ><mat-card-subtitle

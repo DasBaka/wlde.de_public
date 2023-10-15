@@ -157,6 +157,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   toggleLogin(enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog
       .open(LoginComponent, {
+        /*         height: '90%',
+        width: '90%', */
         enterAnimationDuration,
         exitAnimationDuration,
       })
