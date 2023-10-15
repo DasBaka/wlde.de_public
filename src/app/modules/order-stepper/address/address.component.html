@@ -12,6 +12,7 @@
       <mat-card-header>
         <mat-card-title
           ><h1
+            class="pb-4"
             [innerText]="
               currentUrl == 'your-data' ? 'Deine Daten' : 'Lieferadresse'
             "></h1
@@ -104,7 +105,7 @@
           </div>
         </div>
 
-        <mat-divider></mat-divider>
+        <mat-divider class="pb-4"></mat-divider>
 
         <!-- Address -->
         <div formGroupName="address">
@@ -206,7 +207,7 @@
           >
         </p>
       </mat-card-content>
-      <mat-card-actions>
+      <mat-card-actions class="pt-3 justify-content-between">
         <button
           [disabled]="!customerForm.valid"
           mat-raised-button
@@ -215,6 +216,14 @@
           [innerText]="
             currentUrl == 'your-data' ? 'Aktualisieren' : 'Weiter'
           "></button>
+        <button
+          *ngIf="currentUrl == 'your-data'"
+          mat-flat-button
+          color="warn"
+          type="button"
+          (click)="deleteAccount()">
+          Account löschen
+        </button>
       </mat-card-actions>
     </mat-card>
   </form>

@@ -8,10 +8,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
-import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +17,6 @@ import { CustomerProfile } from 'src/models/interfaces/customer-profile';
 })
 export class LoginComponent implements AfterViewInit {
   private authService = inject(AuthService);
-  private dataService = inject(FirestoreDataService);
   private fb = inject(FormBuilder);
   loginForm!: FormGroup;
   regForm!: FormGroup;
@@ -29,10 +25,7 @@ export class LoginComponent implements AfterViewInit {
   resetted = false;
   currError = '';
 
-  constructor(
-    public dialogRef: MatDialogRef<LoginComponent>,
-    private router: Router
-  ) {
+  constructor(public dialogRef: MatDialogRef<LoginComponent>) {
     this.initForms();
     this.dialogRef.afterClosed().subscribe(() => {
       this.resetPw = false;

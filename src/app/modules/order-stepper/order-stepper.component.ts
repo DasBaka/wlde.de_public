@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
   templateUrl: './order-stepper.component.html',
   styleUrls: ['./order-stepper.component.scss'],
 })
-export class OrderStepperComponent implements OnInit {
+export class OrderStepperComponent {
   dataService: FirestoreDataService = inject(FirestoreDataService);
   controlAddress = this._formBuilder.group({});
   controlCheck = this._formBuilder.group({});
@@ -38,16 +38,9 @@ export class OrderStepperComponent implements OnInit {
     this.navigate();
   }
 
-  ngOnInit(): void {}
-
   navigate() {
     if (this.order == null || this.price == null || localStorage.length === 0) {
       this.router.navigate(['']);
-      return;
-    }
-    if (localStorage.getItem('orderId') != null) {
-      let ls = localStorage.getItem('orderId');
-      this.router.navigate(['your-order/' + ls]);
       return;
     }
   }

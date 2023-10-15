@@ -39,6 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DishesComponent } from './modules/main/dishes/dishes.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DeleteComponent } from './modules/order-stepper/address/delete/delete.component';
+import { ResetPasswordComponent } from './modules/main/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     CartComponent,
     LoginComponent,
     DishesComponent,
+    DeleteComponent,
+    ResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

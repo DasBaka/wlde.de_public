@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -9,11 +10,13 @@ import {
 } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
 import { CustomerProfile } from 'src/models/interfaces/customer-profile';
+import { DeleteComponent } from './delete/delete.component';
 
 @Component({
   selector: 'app-address',
@@ -24,13 +27,13 @@ export class AddressComponent implements OnChanges {
   dataService: FirestoreDataService = inject(FirestoreDataService);
   authService: AuthService = inject(AuthService);
   dataToEdit = new Customer();
-  @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
+  @Input() loggedInUser: (CustomerProfile & { id: string }) | null = null;
   @Input() currentUrl: string = '';
   @Output() controlAddress = new EventEmitter<FormGroup>();
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, public dialog: MatDialog) {
     if (this.loggedInUser && this.loggedInUser !== null) {
       this.dataToEdit = new Customer(this.loggedInUser);
     }
@@ -80,7 +83,7 @@ export class AddressComponent implements OnChanges {
   contactGroup(data: Customer) {
     return this.fb.group({
       mail: [
-        data.contact.mail,
+        { value: data.contact.mail, disabled: data.contact.mail !== null },
         Validators.compose([
           Validators.required,
           Validators.email,
@@ -115,5 +118,16 @@ export class AddressComponent implements OnChanges {
           break;
       }
     }
+  }
+
+  async deleteAccount() {
+    const dialogRef = this.dialog.open(DeleteComponent);
+    dialogRef.afterClosed().subscribe((onNoClick) => {
+      if (!onNoClick) {
+        this.authService.deleteAccount().then(() => {
+          this.router.navigate(['']);
+        });
+      }
+    });
   }
 }

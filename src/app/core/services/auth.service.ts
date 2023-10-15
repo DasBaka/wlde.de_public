@@ -11,6 +11,9 @@ import {
   onAuthStateChanged,
   signOut,
   sendPasswordResetEmail,
+  deleteUser,
+  reauthenticateWithCredential,
+  AuthCredential,
 } from '@angular/fire/auth';
 import { getDoc } from 'firebase/firestore';
 import { Observable, Subscription, map } from 'rxjs';
@@ -21,10 +24,8 @@ import { FirestoreDataService } from './firestore-data.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private dataService = inject(FirestoreDataService);
   auth!: Auth;
   user$!: Observable<User | null>;
-  emailProvider = new EmailAuthProvider();
   userid: string | null = null;
   currentUser: User | null = null;
 
@@ -76,5 +77,24 @@ export class AuthService {
 
   async logout() {
     await signOut(this.auth);
+  }
+
+  async reauth(pw: string) {
+    const u = this.auth.currentUser;
+    if (u && u.email) {
+      const credential = EmailAuthProvider.credential(u.email, pw);
+      await reauthenticateWithCredential(u, credential).catch((error) => {
+        throw error;
+      });
+    }
+  }
+
+  async deleteAccount() {
+    const u = this.auth.currentUser;
+    if (u) {
+      await deleteUser(u).catch((error) => {
+        console.log(error);
+      });
+    }
   }
 }

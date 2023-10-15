@@ -48,6 +48,7 @@
                 <mat-label>Passwort</mat-label>
                 <input
                   matInput
+                  type="password"
                   #tooltip1="matTooltip"
                   (focus)="tooltip1.show()"
                   (input)="currError = ''"
@@ -140,6 +141,7 @@
                 appearance="outline">
                 <mat-label>Passwort</mat-label>
                 <input
+                  type="password"
                   matInput
                   #tooltip2="matTooltip"
                   (focus)="tooltip2.show()"
@@ -158,6 +160,7 @@
                 appearance="outline">
                 <mat-label>Passwort wiederholen</mat-label>
                 <input
+                  type="password"
                   matInput
                   formControlName="check" />
                 <mat-error *ngIf="regForm.get('check')?.hasError('required')">
@@ -180,7 +183,7 @@
                   <span *ngIf="!loading">Registrieren</span>
                 </button>
                 <button
-                  [disabled]="loading && loginForm.valid"
+                  [disabled]="loading && regForm.valid"
                   mat-raised-button
                   color="accent"
                   type="reset"

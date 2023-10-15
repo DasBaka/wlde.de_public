@@ -50,6 +50,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {
+    if (
+      Date.now() - parseInt(localStorage.getItem('loginTime') ?? '0') >
+      3600000
+    ) {
+      this.logout();
+    }
     this.checkLSForOrder();
     this.userSub = this.authService.user$.subscribe(
       async (user: User | null) => {
@@ -91,16 +97,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       if (Date.now() - parseInt(t) > h) {
         localStorage.clear();
         return;
-      } else {
-        this.navigateToOrder();
       }
-    }
-  }
-
-  navigateToOrder() {
-    if (localStorage.getItem('orderId')) {
-      let ls = localStorage.getItem('orderId');
-      this.router.navigate(['your-order/' + ls]);
     }
   }
 
@@ -169,6 +166,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
           this._snackBar.open(this.welcomMessage(result ?? null), undefined, {
             duration: 2500,
           });
+          localStorage.setItem('loginTime', Date.now().toString());
         }
       });
   }

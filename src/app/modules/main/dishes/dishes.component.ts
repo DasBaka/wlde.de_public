@@ -20,6 +20,8 @@ export class DishesComponent {
   selectedTags = [];
   filteredObservable$!: Observable<any[]>;
   disabled = false;
+  orderStorage = '';
+  ordered = false;
 
   @ViewChild('tagWrapper') tagDiv!: ElementRef;
 
@@ -28,6 +30,10 @@ export class DishesComponent {
   @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
 
   @Output() calc: EventEmitter<CartItem> = new EventEmitter<CartItem>();
+
+  constructor() {
+    this.currentlyOrdered();
+  }
 
   cooldown() {
     this.disabled = true;
@@ -86,5 +92,14 @@ export class DishesComponent {
     ].some((value) => {
       return !value;
     });
+  }
+
+  currentlyOrdered() {
+    if (localStorage.getItem('orderId') != null) {
+      this.orderStorage = localStorage.getItem('orderId') ?? '';
+      this.ordered = true;
+      return;
+    }
+    this.ordered = false;
   }
 }

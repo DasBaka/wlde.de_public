@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './modules/main/main.component';
+import { ResetPasswordComponent } from './modules/main/reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -16,13 +17,18 @@ const routes: Routes = [
   },
   {
     path: 'your-data',
-    title: 'Deine Bestellung | wlde.de',
+    title: 'Deine Daten | wlde.de',
     component: MainComponent,
   },
   {
     path: '',
     redirectTo: '',
     pathMatch: 'full',
+  },
+  {
+    path: 'reset-password/:id',
+    title: 'Passwort zurücksetzen | wlde.de',
+    component: ResetPasswordComponent,
   },
 ];
 

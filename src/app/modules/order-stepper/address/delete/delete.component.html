@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Account löschen</h2>
+<mat-dialog-content class="text-center"
+  ><p>Ein Account macht deine Bestellung einfacher.</p>
+  <p>Willst du ihn wirklich löschen?</p>
+  <mat-divider></mat-divider>
+  <p>
+    <small><i>Zum Löschen musst dein Passwort erneut eingeben.</i></small>
+  </p>
+  <form
+    [formGroup]="loginForm"
+    novalidate>
+    <mat-form-field
+      class="w-100"
+      appearance="outline">
+      <mat-label>Passwort</mat-label>
+      <input
+        matInput
+        type="password"
+        (input)="currError = ''"
+        formControlName="pw" />
+      <mat-error *ngIf="loginForm.get('pw')?.hasError('required')">
+        <strong>*Erforderlich!</strong>
+      </mat-error>
+      <mat-error *ngIf="loginForm.get('pw')?.hasError('pw_error')">
+        <strong>Falsches Passwort.</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="mx-2 justify-content-between">
+  <button
+    mat-raised-button
+    (click)="onNoClick(true)">
+    No
+  </button>
+  <button
+    mat-raised-button
+    [disabled]="wait"
+    color="warn"
+    (click)="onNoClick(false)">
+    Yes
+  </button>
+</mat-dialog-actions>
