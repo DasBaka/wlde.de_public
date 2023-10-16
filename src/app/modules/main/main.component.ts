@@ -170,6 +170,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  toImprint() {
+    this.router.navigate([''], {
+      queryParams: { page: 'imprint' },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false,
+    });
+  }
+
   reroute(s: string) {
     switch (s) {
       case 'data':

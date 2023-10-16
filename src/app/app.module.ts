@@ -41,6 +41,7 @@ import { DishesComponent } from './modules/main/dishes/dishes.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DeleteComponent } from './modules/order-stepper/address/delete/delete.component';
 import { ResetPasswordComponent } from './modules/main/reset-password/reset-password.component';
+import { ImprintComponent } from './modules/main/imprint/imprint.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ResetPasswordComponent } from './modules/main/reset-password/reset-pass
     DishesComponent,
     DeleteComponent,
     ResetPasswordComponent,
+    ImprintComponent,
   ],
   imports: [
     BrowserModule,

@@ -97,7 +97,8 @@
         </mat-menu>
         <button
           type="button"
-          mat-icon-button>
+          mat-icon-button
+          (click)="toImprint()">
           <mat-icon class="mat-icon-filled">info</mat-icon>
         </button>
         <button
@@ -129,6 +130,7 @@
       *ngIf="params['page'] === 'data' && params['id'] !== undefined"
       [loggedInUser]="currentUser"></app-address>
     <app-done *ngIf="params['page'] === 'your-order'"></app-done>
+    <app-imprint *ngIf="params['page'] === 'imprint'"></app-imprint>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
