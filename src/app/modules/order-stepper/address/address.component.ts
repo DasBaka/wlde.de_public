@@ -11,7 +11,7 @@ import {
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirestoreDataService } from 'src/app/core/services/firestore-data.service';
 import { Customer } from 'src/models/classes/customer.class';
@@ -28,16 +28,23 @@ export class AddressComponent implements OnChanges {
   authService: AuthService = inject(AuthService);
   dataToEdit = new Customer();
   @Input() loggedInUser: (CustomerProfile & { id: string }) | null = null;
-  @Input() params!: { [key: string]: any };
+  params!: { [key: string]: any };
   @Output() controlAddress = new EventEmitter<FormGroup>();
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
 
-  constructor(private router: Router, public dialog: MatDialog) {
+  constructor(
+    private router: Router,
+    public dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {
     if (this.loggedInUser && this.loggedInUser !== null) {
       this.dataToEdit = new Customer(this.loggedInUser);
     }
     this.initForm();
+    this.route.queryParams.subscribe((params) => {
+      this.params = params;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

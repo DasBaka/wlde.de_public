@@ -127,9 +127,8 @@
       [loggedInUser]="currentUser"></app-order-stepper>
     <app-address
       *ngIf="params['page'] === 'data' && params['id'] !== undefined"
-      [params]="params"
       [loggedInUser]="currentUser"></app-address>
-    <app-done *ngIf="currentUrl == 'your-order'"></app-done>
+    <app-done *ngIf="params['page'] === 'your-order'"></app-done>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

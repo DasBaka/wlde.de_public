@@ -164,8 +164,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   toOrder() {
     this.router.navigate([''], {
-      queryParams: { page: 'order' },
-      state: { cart: this.cart, price: this.priceOfItems() },
+      queryParams: { page: 'your-order' },
       queryParamsHandling: 'merge',
       skipLocationChange: false,
     });
