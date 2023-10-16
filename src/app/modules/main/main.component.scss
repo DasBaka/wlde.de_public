@@ -52,3 +52,7 @@ $takeaway-clone-primary: mat.define-palette(mat.$orange-palette);
     transition: scale 0.125s ease-in-out;
   }
 }
+
+.mat-mdc-fab.mat-accent {
+  --mdc-fab-container-color: #fafafa;
+}

@@ -154,6 +154,37 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  toData() {
+    this.router.navigate([''], {
+      queryParams: { page: 'data', id: this.user?.uid },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false,
+    });
+  }
+
+  toOrder() {
+    this.router.navigate([''], {
+      queryParams: { page: 'order' },
+      state: { cart: this.cart, price: this.priceOfItems() },
+      queryParamsHandling: 'merge',
+      skipLocationChange: false,
+    });
+  }
+
+  reroute(s: string) {
+    switch (s) {
+      case 'data':
+        this.toData();
+        break;
+      case 'order':
+        this.toOrder();
+        break;
+
+      default:
+        break;
+    }
+  }
+
   toggleLogin(enterAnimationDuration: string, exitAnimationDuration: string) {
     this.dialog
       .open(LoginComponent, {

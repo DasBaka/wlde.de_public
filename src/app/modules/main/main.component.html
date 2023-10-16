@@ -9,8 +9,7 @@
     [opened]="
       (isHandset$ | async) === false &&
       cart.length > 0 &&
-      params['page'] === undefined &&
-      currentUrl != 'your-order'
+      params['page'] === undefined
     ">
     <mat-toolbar class="d-flex justify-content-center">Warenkorb</mat-toolbar>
     <mat-divider class="pb-1"></mat-divider>
@@ -71,7 +70,6 @@
           type="button"
           mat-fab
           extended
-          color="primary"
           (click)="toggleLogin('250ms', '250ms')">
           <mat-icon class="mat-icon-filled">account_circle</mat-icon>Login
         </button>
@@ -88,7 +86,7 @@
         <mat-menu #userMenu="matMenu">
           <a
             mat-menu-item
-            href="your-data"
+            (click)="toData()"
             >Meine Daten</a
           >
           <button
@@ -122,13 +120,14 @@
       [dataService]="dataService"
       [loggedInUser]="currentUser"
       (calc)="calcPrice($event); sumOfItems()"
+      (reroute)="reroute($event)"
       [cart]="cart"></app-dishes>
     <app-order-stepper
       *ngIf="params['page'] == 'order'"
       [loggedInUser]="currentUser"></app-order-stepper>
     <app-address
-      *ngIf="currentUrl == 'your-data'"
-      [currentUrl]="currentUrl"
+      *ngIf="params['page'] === 'data' && params['id'] !== undefined"
+      [params]="params"
       [loggedInUser]="currentUser"></app-address>
     <app-done *ngIf="currentUrl == 'your-order'"></app-done>
   </mat-sidenav-content>

@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ViewEncapsulation,
+  inject,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,

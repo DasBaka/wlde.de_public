@@ -9,8 +9,7 @@ const routes: Routes = [
     title: 'Du bestellst, wir liefern | wlde.de',
     component: MainComponent,
   },
-
-  {
+  /* {
     path: 'your-order/:id',
     title: 'Deine Bestellung | wlde.de',
     component: MainComponent,
@@ -19,17 +18,17 @@ const routes: Routes = [
     path: 'your-data',
     title: 'Deine Daten | wlde.de',
     component: MainComponent,
-  },
+  }, */
   {
     path: '',
     redirectTo: '',
     pathMatch: 'full',
   },
-  {
+  /* {
     path: 'reset-password/:id',
     title: 'Passwort zurücksetzen | wlde.de',
     component: ResetPasswordComponent,
-  },
+  }, */
 ];
 
 @NgModule({

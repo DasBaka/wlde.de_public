@@ -28,7 +28,7 @@ export class AddressComponent implements OnChanges {
   authService: AuthService = inject(AuthService);
   dataToEdit = new Customer();
   @Input() loggedInUser: (CustomerProfile & { id: string }) | null = null;
-  @Input() currentUrl: string = '';
+  @Input() params!: { [key: string]: any };
   @Output() controlAddress = new EventEmitter<FormGroup>();
   private fb = inject(FormBuilder);
   customerForm!: FormGroup;
@@ -99,8 +99,8 @@ export class AddressComponent implements OnChanges {
 
   async onSubmit(): Promise<void> {
     if (this.customerForm.valid) {
-      switch (this.currentUrl) {
-        case 'your-data':
+      switch (this.params['page']) {
+        case 'data':
           try {
             this.dataService.update(
               'users/' + this.loggedInUser?.id,

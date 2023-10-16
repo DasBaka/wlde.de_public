@@ -46,16 +46,18 @@
               </mat-form-field>
               <mat-form-field
                 class="w-100"
-                appearance="outline">
+                appearance="outline"
+                matTooltip="6-20 Zeichen: mind. je 1x Groß-, Kleinbuchstabe, Zahl und
+              Sonderzeichen"
+                #tooltip1="matTooltip"
+                matTooltipPosition="below"
+                matTooltipPositionAtOrigin="true">
                 <mat-label>Passwort</mat-label>
                 <input
                   matInput
                   type="password"
-                  #tooltip1="matTooltip"
                   (focus)="tooltip1.show()"
                   (input)="currError = ''"
-                  matTooltip="6-20 Zeichen: mind. je 1x Groß-, Kleinbuchstabe, Zahl und
-              Sonderzeichen"
                   formControlName="pw" />
                 <mat-error *ngIf="loginForm.get('pw')?.hasError('required')">
                   <strong>*Erforderlich!</strong>
@@ -148,7 +150,10 @@
                   #tooltip2="matTooltip"
                   (focus)="tooltip2.show()"
                   matTooltip="6-20 Zeichen: mind. je 1x Groß-, Kleinbuchstabe, Zahl und
-              Sonderzeichen"
+                  Sonderzeichen"
+                  #tooltip1="matTooltip"
+                  matTooltipPosition="below"
+                  matTooltipPositionAtOrigin="true"
                   formControlName="pw" />
                 <mat-error *ngIf="regForm.get('pw')?.hasError('required')">
                   <strong>*Erforderlich!</strong>

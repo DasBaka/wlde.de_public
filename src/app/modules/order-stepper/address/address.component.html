@@ -1,20 +1,20 @@
 <div
   class="overflow-auto"
-  [class.container]="currentUrl == 'your-data'">
+  [class.container]="params['page'] === 'data'">
   <form
     [formGroup]="customerForm"
     novalidate
     (ngSubmit)="onSubmit()">
     <mat-card
       class="shipping-card"
-      [class.your-data]="currentUrl == 'your-data'"
+      [class.your-data]="params['page'] === 'data'"
       appearance="outlined">
       <mat-card-header>
         <mat-card-title
           ><h1
             class="pb-4"
             [innerText]="
-              currentUrl == 'your-data' ? 'Deine Daten' : 'Lieferadresse'
+              params['page'] === 'data' ? 'Deine Daten' : 'Lieferadresse'
             "></h1
         ></mat-card-title>
       </mat-card-header>
@@ -28,7 +28,7 @@
                 <mat-label>Vorname</mat-label>
                 <input
                   matInput
-                  placeholder="Customer's firstname"
+                  placeholder="Vorname"
                   formControlName="firstname" />
                 <mat-error
                   *ngIf="
@@ -45,7 +45,7 @@
                 <mat-label>Name</mat-label>
                 <input
                   matInput
-                  placeholder="Customer's lastname"
+                  placeholder="Nachname"
                   formControlName="lastname" />
                 <mat-error
                   *ngIf="
@@ -64,7 +64,7 @@
                 <mat-label>Firma</mat-label>
                 <input
                   matInput
-                  placeholder="Customer's firstname"
+                  placeholder="Firma"
                   formControlName="company" />
               </mat-form-field>
             </div>
@@ -80,7 +80,7 @@
                 <input
                   required
                   matInput
-                  placeholder="Contact email address"
+                  placeholder="Email"
                   formControlName="mail" />
                 <mat-error *ngIf="customerForm.get('contact.mail')?.errors">
                   <strong>Keine gültige</strong> Email-Adresse!
@@ -91,11 +91,11 @@
               <mat-form-field
                 appearance="outline"
                 class="full-width">
-                <mat-label>Telefone / Mobil</mat-label>
+                <mat-label>Telefon / Mobil</mat-label>
                 <input
                   matInput
                   required
-                  placeholder="Contact telephone number"
+                  placeholder="Telefonnummer"
                   formControlName="phone" />
                 <mat-error *ngIf="customerForm.get('contact.phone')?.errors">
                   Es <strong>muss</strong> eine Telfonnummer angegeben werden!
@@ -117,7 +117,7 @@
                 <mat-label>Hausanschrift</mat-label>
                 <input
                   matInput
-                  placeholder="Address"
+                  placeholder="Straße"
                   formControlName="street" />
                 <mat-error
                   *ngIf="
@@ -134,7 +134,7 @@
                 <mat-label>Nr.</mat-label>
                 <input
                   matInput
-                  placeholder="House number"
+                  placeholder="Hausnummer"
                   formControlName="house" />
                 <mat-error
                   *ngIf="
@@ -153,7 +153,7 @@
                 <mat-label>Stadt</mat-label>
                 <input
                   matInput
-                  placeholder="City"
+                  placeholder="Stadt"
                   formControlName="city" />
                 <mat-error
                   *ngIf="
@@ -174,7 +174,7 @@
                   maxlength="5"
                   minlength="5"
                   inputmode="numeric"
-                  placeholder="_ _ _ _ _"
+                  placeholder="PLZ"
                   type="text"
                   formControlName="postalCode" />
                 <mat-hint align="end"
@@ -197,7 +197,7 @@
           </div>
         </div>
         <p
-          *ngIf="currentUrl != 'your-data'"
+          *ngIf="params['page'] !== 'data'"
           class="mat-color-accent">
           <small
             ><i
@@ -214,10 +214,10 @@
           color="primary"
           type="submit"
           [innerText]="
-            currentUrl == 'your-data' ? 'Aktualisieren' : 'Weiter'
+            params['page'] === 'data' ? 'Aktualisieren' : 'Weiter'
           "></button>
         <button
-          *ngIf="currentUrl == 'your-data'"
+          *ngIf="params['page'] === 'data'"
           mat-flat-button
           color="warn"
           type="button"

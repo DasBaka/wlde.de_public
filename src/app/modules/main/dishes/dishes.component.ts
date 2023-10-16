@@ -30,6 +30,7 @@ export class DishesComponent {
   @Input() loggedInUser!: (CustomerProfile & { id: string }) | null;
 
   @Output() calc: EventEmitter<CartItem> = new EventEmitter<CartItem>();
+  @Output() reroute: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
     this.currentlyOrdered();
@@ -101,5 +102,9 @@ export class DishesComponent {
       return;
     }
     this.ordered = false;
+  }
+
+  emitRoute(s: string) {
+    this.reroute.emit(s);
   }
 }
