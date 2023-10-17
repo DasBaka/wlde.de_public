@@ -38,7 +38,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   currentUrl: string = '';
 
   isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+    .observe([Breakpoints.Handset, Breakpoints.Tablet])
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+
+  isSmall$: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.XSmall])
     .pipe(
       map((result) => result.matches),
       shareReplay()

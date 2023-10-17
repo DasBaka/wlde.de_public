@@ -18,7 +18,7 @@
         [cart]="cart"
         (adjustPrice)="calcPrice($event)"
         (adjustItems)="sumOfItems()"></app-cart>
-      <div>
+      <div class="position-sticky bottom-0 bg-mat-white">
         <mat-divider *ngIf="this.cart.length > 0"></mat-divider>
         <mat-card
           appearance="outlined"
@@ -96,6 +96,7 @@
           </button>
         </mat-menu>
         <button
+          *ngIf="!(isSmall$ | async)"
           type="button"
           mat-icon-button
           (click)="toImprint()">
@@ -131,6 +132,15 @@
       [loggedInUser]="currentUser"></app-address>
     <app-done *ngIf="params['page'] === 'your-order'"></app-done>
     <app-imprint *ngIf="params['page'] === 'imprint'"></app-imprint>
+    <footer class="bg-mat-accent p-3 text-center">
+      <a
+        class="mb-3"
+        mat-button
+        (click)="toImprint()"
+        >Impressum & Datenschutz
+      </a>
+      <h4>Michael Koch - &copy; 2023</h4>
+    </footer>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

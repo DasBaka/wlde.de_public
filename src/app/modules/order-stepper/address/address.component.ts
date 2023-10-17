@@ -106,6 +106,13 @@ export class AddressComponent implements OnChanges {
 
   async onSubmit(): Promise<void> {
     if (this.customerForm.valid) {
+      console.log(
+        this.params,
+        this.params['page'],
+        this.loggedInUser,
+        this.customerForm.value
+      );
+
       switch (this.params['page']) {
         case 'data':
           try {
@@ -115,9 +122,9 @@ export class AddressComponent implements OnChanges {
             );
           } catch (error) {
             console.log(error);
-          } finally {
-            this.router.navigate(['']);
           }
+          this.router.navigate(['']);
+
           break;
 
         default:
