@@ -96,6 +96,7 @@ export class FirestoreDataService {
         id: string;
       };
       this.userData = userData;
+      console.log(u, user, userData);
     });
   }
 

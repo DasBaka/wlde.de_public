@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -109,15 +108,16 @@ export class AddressComponent implements OnChanges {
       switch (this.params['page']) {
         case 'data':
           try {
-            this.dataService.update(
+            this.customerForm?.get(['contact', 'mail'])?.enable();
+            await this.dataService.update(
               'users/' + this.loggedInUser?.id,
               this.customerForm.value
             );
+            this.router.navigate(['']);
           } catch (error) {
             console.log(error);
           }
-          this.router.navigate(['']);
-
+          this.customerForm?.get(['contact', 'mail'])?.disable();
           break;
 
         default:
