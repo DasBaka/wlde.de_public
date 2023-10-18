@@ -146,7 +146,7 @@ export class FirestoreDataService {
   async syncOrder(doc: DocumentReference, user: any) {
     let id = doc.id;
     try {
-      updateDoc(doc, { id: id });
+      await updateDoc(doc, { id: id, status: 'new' });
       let data: any;
       await getDoc(doc).then((ds: DocumentSnapshot) => {
         data = ds.data() as OrderProfile;

@@ -36,9 +36,13 @@ mat-stepper {
 ::ng-deep .mat-horizontal-stepper-header-container {
   position: -webkit-sticky;
   position: sticky;
-  top: var(--mat-toolbar-mobile-height);
+  top: 64px;
   z-index: 2;
   @extend .mat-app-background;
+
+  @media (max-width: 599px) {
+    top: 56px;
+  }
 }
 
 .stepper-divider {

@@ -84,6 +84,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     if (localStorage.getItem('cart') !== null) {
       this.cart = this.getCartFromLS();
+    } else {
+      this.cart = [];
     }
     let segments = this.route.snapshot.url.map((x) => x.path);
     this.currentUrl = segments[0];

@@ -117,30 +117,32 @@
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
-    <app-dishes
-      *ngIf="params['page'] === undefined && currentUrl === undefined"
-      [dataService]="dataService"
-      [loggedInUser]="currentUser"
-      (calc)="calcPrice($event); sumOfItems()"
-      (reroute)="reroute($event)"
-      [cart]="cart"></app-dishes>
-    <app-order-stepper
-      *ngIf="params['page'] == 'order'"
-      [loggedInUser]="currentUser"></app-order-stepper>
-    <app-address
-      *ngIf="params['page'] === 'data' && params['id'] !== undefined"
-      [loggedInUser]="currentUser"></app-address>
-    <app-done *ngIf="params['page'] === 'your-order'"></app-done>
-    <app-imprint *ngIf="params['page'] === 'imprint'"></app-imprint>
-    <footer class="bg-mat-accent p-3 text-center">
-      <a
-        class="mb-3"
-        mat-button
-        (click)="toImprint()"
-        >Impressum & Datenschutz
-      </a>
-      <h4>Michael Koch - &copy; 2023</h4>
-    </footer>
+    <div class="d-flex flex-column justify-content-between content-container">
+      <app-dishes
+        *ngIf="params['page'] === undefined && currentUrl === undefined"
+        [dataService]="dataService"
+        [loggedInUser]="currentUser"
+        (calc)="calcPrice($event); sumOfItems()"
+        (reroute)="reroute($event)"
+        [cart]="cart"></app-dishes>
+      <app-order-stepper
+        *ngIf="params['page'] == 'order'"
+        [loggedInUser]="currentUser"></app-order-stepper>
+      <app-address
+        *ngIf="params['page'] === 'data' && params['id'] !== undefined"
+        [loggedInUser]="currentUser"></app-address>
+      <app-done *ngIf="params['page'] === 'your-order'"></app-done>
+      <app-imprint *ngIf="params['page'] === 'imprint'"></app-imprint>
+      <footer class="bg-mat-accent p-3 text-center">
+        <a
+          class="mb-3"
+          mat-button
+          (click)="toImprint()"
+          >Impressum & Datenschutz
+        </a>
+        <h4>Michael Koch - &copy; 2023</h4>
+      </footer>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
 
