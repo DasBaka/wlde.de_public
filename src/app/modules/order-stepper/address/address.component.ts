@@ -109,11 +109,12 @@ export class AddressComponent implements OnChanges {
         case 'data':
           try {
             this.customerForm?.get(['contact', 'mail'])?.enable();
-            await this.dataService.update(
-              'users/' + this.loggedInUser?.id,
-              this.customerForm.value
-            );
-            this.router.navigate(['']);
+            console.log(this.customerForm.value);
+            await this.dataService
+              .update('users/' + this.loggedInUser?.id, this.customerForm.value)
+              .then(() => {
+                this.router.navigate([''], {});
+              });
           } catch (error) {
             console.log(error);
           }

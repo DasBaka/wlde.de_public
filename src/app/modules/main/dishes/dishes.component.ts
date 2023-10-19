@@ -3,7 +3,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -16,7 +18,7 @@ import { CustomerProfile } from 'src/models/interfaces/customer-profile';
   templateUrl: './dishes.component.html',
   styleUrls: ['./dishes.component.scss'],
 })
-export class DishesComponent {
+export class DishesComponent implements OnChanges {
   selectedTags = [];
   filteredObservable$!: Observable<any[]>;
   disabled = false;
@@ -34,6 +36,18 @@ export class DishesComponent {
 
   constructor() {
     this.currentlyOrdered();
+    this.missingAddress();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      !changes['loggedInUser'].isFirstChange() ||
+      changes['loggedInUser'].currentValue !== undefined
+    ) {
+      if (this.loggedInUser !== null) {
+        this.missingAddress();
+      }
+    }
   }
 
   cooldown() {

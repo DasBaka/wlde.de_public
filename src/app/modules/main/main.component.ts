@@ -29,6 +29,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   dataService: FirestoreDataService = inject(FirestoreDataService);
   authService = inject(AuthService);
   userSub!: Subscription;
+  dataSub!: Subscription;
   currencyService: CurrencyFormatterService = inject(CurrencyFormatterService);
   cart: CartItem[] = [];
   items = 0;
@@ -64,15 +65,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
       this.logout();
     }
     this.checkLSForOrder();
-    this.userSub = this.authService.user$.subscribe(
-      async (user: User | null) => {
-        this.user = user;
-        this.currentUser = await this.dataService.loadUserData(
-          this.user?.uid,
-          this.user?.email
-        );
-      }
-    );
+    this.userSub = this.subscribeToUserAuth();
+    this.dataSub = this.subscribeToUserData();
     this.route.queryParams.subscribe((params) => {
       this.params = params;
     });
@@ -93,10 +87,30 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
+    this.dataSub.unsubscribe();
   }
 
   ngAfterViewInit() {
     this.sumOfItems();
+  }
+
+  subscribeToUserAuth() {
+    return this.authService.user$.subscribe(async (user: User | null) => {
+      this.user = user;
+      this.currentUser = await this.dataService.loadUserData(
+        this.user?.uid,
+        this.user?.email
+      );
+    });
+  }
+
+  subscribeToUserData() {
+    return this.dataService.userColl$.subscribe(async () => {
+      this.currentUser = await this.dataService.loadUserData(
+        this.user?.uid,
+        this.user?.email
+      );
+    });
   }
 
   checkLSForOrder() {

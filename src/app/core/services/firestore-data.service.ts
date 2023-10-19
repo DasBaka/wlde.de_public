@@ -27,6 +27,7 @@ export class FirestoreDataService {
   orderColl$!: Observable<any[]>;
   restaurantColl$!: Observable<any[]>;
   tagColl$!: Observable<any[]>;
+  userColl$!: Observable<any[]>;
   private userData!:
     | (CustomerProfile & {
         id: string;
@@ -45,6 +46,7 @@ export class FirestoreDataService {
         this.coll('restaurant')
       ) as Observable<any[]>;
       this.tagColl$ = collectionData(this.coll('tags')) as Observable<any[]>;
+      this.userColl$ = collectionData(this.coll('users')) as Observable<any[]>;
     }
   }
 
@@ -96,7 +98,6 @@ export class FirestoreDataService {
         id: string;
       };
       this.userData = userData;
-      console.log(u, user, userData);
     });
   }
 
