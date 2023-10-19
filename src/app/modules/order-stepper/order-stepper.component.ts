@@ -75,7 +75,10 @@ export class OrderStepperComponent {
     let data: OrderProfile = {
       id: '',
       timestamp: Date.now(),
-      user: { id: '', data: this.customerData as CustomerProfile },
+      user: {
+        id: this.loggedInUser?.id ?? null,
+        data: this.customerData as CustomerProfile,
+      },
       cart: { order: this.order, price: this.price },
     };
 
