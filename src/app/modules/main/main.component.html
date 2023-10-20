@@ -127,7 +127,8 @@
         [cart]="cart"></app-dishes>
       <app-order-stepper
         *ngIf="params['page'] == 'order'"
-        [loggedInUser]="currentUser"></app-order-stepper>
+        [loggedInUser]="currentUser"
+        (eraseOrder)="emptyCart()"></app-order-stepper>
       <app-address
         *ngIf="params['page'] === 'data' && params['id'] !== undefined"
         [loggedInUser]="currentUser"></app-address>

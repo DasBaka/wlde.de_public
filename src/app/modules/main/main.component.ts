@@ -251,6 +251,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     await this.authService.logout();
     this.router.navigate(['/']);
   }
+
+  emptyCart() {
+    this.cart = [];
+    this.items = 0;
+  }
 }
 
 export type CartItem = DishProfile & {

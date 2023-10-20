@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
   inject,
@@ -31,6 +33,7 @@ export class OrderStepperComponent {
   stepperOrientation: Observable<StepperOrientation>;
 
   @Input() loggedInUser!: any;
+  @Output() eraseOrder: EventEmitter<any> = new EventEmitter<any>();
   customerData!: CustomerProfile;
   order: CartItem[];
   price: string;
@@ -68,6 +71,9 @@ export class OrderStepperComponent {
     }
     if (this.controlAddress.valid) {
       this.stepper.next();
+    }
+    if (this.stepper.selectedIndex) {
+      this.eraseOrder.emit();
     }
   }
 
