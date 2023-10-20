@@ -60,6 +60,7 @@ export class OrderStepperComponent {
   }
 
   nextStep(fg: FormGroup) {
+    console.log(fg.value, this.stepper.selectedIndex);
     switch (this.stepper.selectedIndex) {
       case 0:
         this.controlAddress = fg;

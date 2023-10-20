@@ -250,6 +250,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   async logout() {
     await this.authService.logout();
     this.router.navigate(['/']);
+    this.currentUser = null;
   }
 
   emptyCart() {
