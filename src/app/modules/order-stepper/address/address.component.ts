@@ -122,7 +122,9 @@ export class AddressComponent implements OnChanges {
           break;
 
         default:
+          this.customerForm?.get(['contact', 'mail'])?.enable();
           this.controlAddress.emit(this.customerForm);
+          this.customerForm?.get(['contact', 'mail'])?.disable();
           break;
       }
     }
