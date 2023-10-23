@@ -42,6 +42,43 @@
         </mat-card-actions>
       </mat-card>
       <mat-card
+        *ngIf="!loggedInUser"
+        appearance="outlined"
+        [class.d-none]="close0.checked"
+        class="info-box position-relative mb-3">
+        <mat-card-header class="d-flex me-3">
+          <mat-card-title><mat-icon>info</mat-icon></mat-card-title
+          ><mat-card-subtitle
+            >Registriere dich noch heute, um deine Daten schneller parat zu
+            haben! <br />
+            <small style="opacity: 0.75"
+              >Du kannst aber auch als Gast bestellen.</small
+            ></mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-actions class="d-flex justify-content-end w-100">
+          <a
+            mat-flat-button
+            class="z-0"
+            (click)="toggleLogin()"
+            >Jetzt registrieren
+          </a>
+          <input
+            name="close0"
+            id="close0"
+            type="checkbox"
+            class="d-none"
+            ngModel
+            #close0 />
+          <label
+            for="close0"
+            class="position-absolute top-0 mt-2 end-0 me-2"
+            style="cursor: pointer"
+            ><mat-icon>close</mat-icon></label
+          >
+        </mat-card-actions>
+      </mat-card>
+      <mat-card
         *ngIf="ordered"
         appearance="outlined"
         [class.d-none]="close1.checked"
@@ -80,7 +117,7 @@
     </p>
     <p class="text-center">
       Wähle jetzt deine Gerichte aus und klicke dann auf "Bestellen", damit wir
-      anfangen können.
+      mit dem Kochen beginnen können.
     </p>
   </div>
   <div class="d-flex">

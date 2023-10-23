@@ -122,6 +122,7 @@
         *ngIf="params['page'] === undefined && currentUrl === undefined"
         [dataService]="dataService"
         [loggedInUser]="currentUser"
+        (toggle)="toggleLogin('250ms', '250ms')"
         (calc)="calcPrice($event); sumOfItems()"
         (reroute)="reroute($event)"
         [cart]="cart"></app-dishes>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseApps } from '@angular/fire/app';
-import { addDoc, collectionData } from '@angular/fire/firestore';
+import { addDoc, collectionData, orderBy } from '@angular/fire/firestore';
 import {
   DocumentReference,
   DocumentSnapshot,
@@ -10,6 +10,7 @@ import {
   doc,
   getDoc,
   getFirestore,
+  query,
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
@@ -38,7 +39,9 @@ export class FirestoreDataService {
     let app = this.findApp();
     if (app) {
       this.fs = getFirestore(app);
-      this.dishColl$ = collectionData(this.coll('dishes')) as Observable<any[]>;
+      this.dishColl$ = collectionData(
+        query(this.coll('dishes'), orderBy('tags'))
+      ) as Observable<any[]>;
       this.orderColl$ = collectionData(this.coll('orders')) as Observable<
         any[]
       >;

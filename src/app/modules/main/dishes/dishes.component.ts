@@ -33,6 +33,7 @@ export class DishesComponent implements OnChanges {
 
   @Output() calc: EventEmitter<CartItem> = new EventEmitter<CartItem>();
   @Output() reroute: EventEmitter<string> = new EventEmitter<string>();
+  @Output() toggle: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() {
     this.currentlyOrdered();
@@ -120,5 +121,9 @@ export class DishesComponent implements OnChanges {
 
   emitRoute(s: string) {
     this.reroute.emit(s);
+  }
+
+  toggleLogin() {
+    this.toggle.emit();
   }
 }

@@ -35,13 +35,6 @@ export class AuthService {
       this.auth = getAuth(app);
       this.user$ = user(this.auth);
     }
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        this.userid = user.uid;
-      } else {
-        this.userid = null;
-      }
-    });
   }
 
   findApp() {
