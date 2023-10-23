@@ -3,7 +3,13 @@
   <img
     src="../../../assets/img/cooks-1661131_1920.jpg"
     class="main-img" />
-  <h2 class="img-text container">Noch wenige Schritte bis zum Essen!</h2>
+  <h2
+    class="img-text container"
+    [innerText]="
+      stepper.selectedIndex == 2
+        ? 'Hervorragend!'
+        : 'Noch wenige Schritte bis zum Essen!'
+    "></h2>
 </div>
 <div class="container">
   <mat-stepper

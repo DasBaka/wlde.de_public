@@ -98,7 +98,7 @@ export class AddressComponent implements OnChanges {
       ],
       phone: [
         data.contact.phone,
-        Validators.compose([Validators.required, Validators.pattern('[0-9]*')]),
+        Validators.compose([Validators.pattern('[0-9]*')]),
       ],
     });
   }

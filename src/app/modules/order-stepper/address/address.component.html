@@ -94,11 +94,10 @@
                 <mat-label>Telefon / Mobil</mat-label>
                 <input
                   matInput
-                  required
                   placeholder="Telefonnummer"
                   formControlName="phone" />
                 <mat-error *ngIf="customerForm.get('contact.phone')?.errors">
-                  Es <strong>muss</strong> eine Telfonnummer angegeben werden!
+                  <strong>Ungültige</strong> Telefonnummer!
                 </mat-error>
               </mat-form-field>
             </div>
