@@ -76,11 +76,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.getTimeFromLS() + 30 * 60 * 1000 < Date.now()) {
       localStorage.clear();
     }
-    if (localStorage.getItem('cart') !== null) {
-      this.cart = this.getCartFromLS();
-    } else {
-      this.cart = [];
-    }
     let segments = this.route.snapshot.url.map((x) => x.path);
     this.currentUrl = segments[0];
   }
@@ -157,11 +152,6 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   setCartToLS() {
     localStorage.setItem('time', Date.now().toString());
-    localStorage.setItem('cart', JSON.stringify(this.cart));
-  }
-
-  getCartFromLS() {
-    return JSON.parse(localStorage.getItem('cart') ?? '');
   }
 
   getTimeFromLS() {

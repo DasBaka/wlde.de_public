@@ -5,10 +5,25 @@
 </div>
 <div class="container text-center">
   <h1 class="my-4">Vielen Dank für deine Bestellung!</h1>
-  <p class="my-4">
+  <p
+    *ngIf="orderStatus != 'done'"
+    class="my-4">
     Du hast deine Bestellung aufgegeben und nun sind wir am Zug!
   </p>
-  <p class="mt-4 mb-5">In spätestens {{ time }}min ist dein Essen bei dir.</p>
+  <p *ngIf="orderStatus == 'done'">
+    Wundervoll! Dein Essen ist bei dir angekommen.<br />Guten Appetit!
+  </p>
+  <p
+    *ngIf="orderStatus != 'done' && pctTime != 100"
+    class="mt-4 mb-5">
+    In spätestens {{ time }}min ist dein Essen bei dir.
+  </p>
+  <p
+    *ngIf="orderStatus != 'done' && pctTime == 100"
+    class="mt-4 mb-5">
+    Wie es scheint, wird sich deine Bestellung ein wenig zu verzögern. <br />Wir
+    bitten dies zu entschuldigen.
+  </p>
   <div class="position-relative mt-4">
     <mat-progress-bar
       mode="determinate"

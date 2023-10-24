@@ -17,9 +17,6 @@ export class CartComponent {
     d.count += add;
     if (d.count == 0) {
       this.cart.splice(i, 1);
-      if (this.cart.length == 0) {
-        localStorage.clear();
-      }
     } else {
       this.adjustPrice.emit(dish);
     }
