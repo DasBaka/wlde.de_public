@@ -107,27 +107,39 @@ export class AddressComponent implements OnChanges {
     if (this.customerForm.valid) {
       switch (this.params['page']) {
         case 'data':
-          try {
-            this.customerForm?.get(['contact', 'mail'])?.enable();
-            console.log(this.customerForm.value);
-            await this.dataService
-              .update('users/' + this.loggedInUser?.id, this.customerForm.value)
-              .then(() => {
-                this.router.navigate([''], {});
-              });
-          } catch (error) {
-            console.log(error);
-          }
-          this.customerForm?.get(['contact', 'mail'])?.disable();
+          await this.updateUserData();
           break;
-
         default:
-          this.customerForm?.get(['contact', 'mail'])?.enable();
-          this.controlAddress.emit(this.customerForm);
-          this.customerForm?.get(['contact', 'mail'])?.disable();
+          await this.updateAndOrder();
           break;
       }
     }
+  }
+
+  async updateUserData() {
+    try {
+      this.customerForm?.get(['contact', 'mail'])?.enable();
+      await this.dataService
+        .update('users/' + this.loggedInUser?.id, this.customerForm.value)
+        .then(() => {
+          this.router.navigate([''], {});
+        });
+    } catch (error) {
+      console.log(error);
+    }
+    this.customerForm?.get(['contact', 'mail'])?.disable();
+  }
+
+  async updateAndOrder() {
+    this.customerForm?.get(['contact', 'mail'])?.enable();
+    if (this.loggedInUser?.id) {
+      await this.dataService.update(
+        'users/' + this.loggedInUser?.id,
+        this.customerForm.value
+      );
+    }
+    this.controlAddress.emit(this.customerForm);
+    this.customerForm?.get(['contact', 'mail'])?.disable();
   }
 
   async deleteAccount() {
